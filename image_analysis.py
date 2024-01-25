@@ -5,6 +5,7 @@ from vertexai.preview.generative_models import GenerativeModel, Image
 import os 
 import pandas as pd
 from PIL import Image
+import google.ai.generativelanguage as glm
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
 
@@ -15,8 +16,20 @@ def initialize_model():
     return GenerativeModel("gemini-pro-vision")
 
 def analyze_image(model, prompt, image):
-    response = model.generate_content([prompt, image])
-    return response.text
+        response = model.generate_content(
+        glm.Content(
+            parts = [
+                glm.Part(text=prompt),
+                glm.Part(
+                    inline_data=glm.Blob(
+                        mime_type='image/png'
+                    )
+                ),
+            ],
+        ),
+        stream=True)
+        response = model.generate_content([prompt, image])
+        return response.text
     
 def process_response(response_text):
     yes_no = "yes" if "yes" in response_text.lower() else "no" if "no" in response_text.lower() else "unknown"
