@@ -1,5 +1,5 @@
 # image_analysis.py
-
+from google.cloud import aiplatform
 import vertexai
 from vertexai.preview.generative_models import GenerativeModel, Image
 import os 
