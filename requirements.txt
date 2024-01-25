@@ -1,6 +1,7 @@
 webdriver-manager
 streamlit
 Pillow
+google-api-python-client
 seleniumbase
 xlsxwriter
 pandas
