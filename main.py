@@ -11,7 +11,7 @@ import app_ui
 from config import GOOGLE_PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, VERTEX_AI_REGION
 import os
 
-def get_prompts_for_country_image(country):
+def get_prompts_for_country_text(country):
     prompts_dict = {
         "Germany": ["Determine if the following text is in German. Respond with 'yes' or 'no' and briefly explain your reasoning in one sentence: {full_text}",
         "Assess if the following text contains delivery-related information. Reply with 'yes' or 'no'. If 'yes', summarize the delivery details: {full_text}",
@@ -124,7 +124,7 @@ def get_prompts_for_country_image(country):
     }
     return prompts_dict.get(country, [])
 
-def get_prompts_for_country_text(country):
+def get_prompts_for_country_images(country):
     prompts_dict = {
         "Germany": [
         "Scan for delivery logos: DHL, Hermes, DPD, UPS, FedEx, Deutsche Post. Yes or no? If yes, which and where?",
@@ -205,23 +205,13 @@ def main():
 
         # Initialize TextGenerator and generate text responses
         text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
-        prompts = [
-        "Determine if the following text is in German. Respond with 'yes' or 'no' and briefly explain your reasoning in one sentence: {full_text}",
-        "Assess if the following text contains delivery-related information. Reply with 'yes' or 'no'. If 'yes', summarize the delivery details: {full_text}",
-        "Check if there's a phone number in the text. Answer 'yes' or 'no'. If 'yes', please provide the phone number: {full_text}",
-        "Identify any occurrences of 'sale', 'Rabatt', 'Ermäßigung', or 'Schlussverkauf', or similar terms in English or German in the text. Respond 'yes' or 'no'. If 'yes', indicate the location in the text and provide the original German phrase. Note: The text is OCR-extracted from an image. Also, specify its position in the image: {full_text}",
-        "Search for terms related to returns like 'return', 'Rücksendung', 'Rückversand', 'Rückgabe', 'Rücksendung Informationen', 'Rückerstattung', or similar in English or German. Reply 'yes' or 'no'. If 'yes', locate these terms in the text, give the original German text, and describe their location in the image (OCR-extracted): {full_text}",
-        "Look for phrases like 'free returns', 'Rücksendung kostenlos', 'Kostenlose Lieferung und Rücksendung', or similar in English or German. Answer 'yes' or 'no'. If 'yes', mention where they are found in the text, provide the original German phrase, and their location in the OCR-extracted image: {full_text}",
-        "Search for 'free delivery', 'Kostenlose Lieferung', 'gratisversand', 'Standardlieferung - Kostenlos ab', 'Kostenfreier Versand', 'Kostenloser Versand ab', or similar terms in English or German. Respond 'yes' or 'no'. If 'yes', specify their location in the text, include the German original, and indicate their position in the OCR-extracted image: {full_text}",
-        "Identify if there are any instances of FAQ, 'Fragen und Antworten', or 'Fragen & Antworten', or similar in English or German. Answer 'yes' or 'no'. If 'yes', locate these in the text, provide the original German phrase, and their location in the OCR-extracted image: {full_text}",
-        "Determine if there's any mention of 'trusted shops' in English or German. Reply 'yes' or 'no'. If 'yes', indicate where it is in the text, provide the German original, and describe its location in the OCR-extracted image: {full_text}"
-    ]        
+        prompts = get_prompts_for_country_text(selected_country)  
         parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
         text_responses = text_generator.generate_text_responses(prompts, parameters)
         processed_text_results = text_generator.process_responses(text_responses, prompts)
 
         # Analyze the image for specific criteria using Image Analysis
-        image_analysis_results = analyze_image_for_criteria('screenshot.png', GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
+        image_analysis_results = analyze_image_for_criteria('screenshot.png', GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
 
         # Data Management and Export
         rename_mappings = {'yes or no': 'yes/no(1/0)'}

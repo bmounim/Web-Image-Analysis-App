@@ -27,13 +27,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
     model = initialize_model()
 
     prompts = prompts
-    
-    prompts = [
-        "Scan for delivery logos: DHL, Hermes, DPD, UPS, FedEx, Deutsche Post. Yes or no? If yes, which and where?",
-        "Detect payment logos: Visa, Mastercard, PayPal. Present, yes or no? If yes, specify brands and locations.",
-        "Look for payment logos: Klarna, Sofort, Giropay. Are they in the image? If yes, identify brands and their locations.",
-        "Look for chat support icons , Are they in the image? If yes,  identify their locations."
-    ]
+
 
     data = []
     for prompt in prompts:
