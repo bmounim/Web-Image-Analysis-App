@@ -22,6 +22,7 @@ def main():
     if st.button('Analyze'):
         # Initialize WebScraper and capture a screenshot
         scraper = WebScraper()
+        handle_cookies(url)
         screenshot_data = scraper.capture_and_return_fullpage_screenshot(url)
         scraper.close()
 
@@ -56,6 +57,7 @@ def main():
         #processed_text_results=DataManager.preprocess_dataframe(processed_text_results,rename_mappings=rename_mappings,convert_columns=convert_columns)
         #image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
         final_results = DataManager.merge_dataframes([processed_text_results, image_analysis_results])
+        final_results['yes or no'] = final_results['yes or no'].map({'yes': 1, 'no': 0})
         xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
         # Render the download button for the results
