@@ -7,7 +7,7 @@ import os
 def install_chrome():
     os.system('sbase install chromedriver')
     # Adjust the path based on where chromedriver is installed
-    os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/chromedriver')
+    os.system('ln -s /home/appuser/.cache/selenium/chromedriver/linux64/121.0.6167.85/chromedriver')
 
 _ = install_chrome()
 
