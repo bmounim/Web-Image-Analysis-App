@@ -22,7 +22,7 @@ def main():
     if st.button('Analyze'):
         # Initialize WebScraper and capture a screenshot
         scraper = WebScraper()
-        handle_cookies(url)
+        scraper.handle_cookies(url)
         screenshot_data = scraper.capture_and_return_fullpage_screenshot(url)
         scraper.close()
 
