@@ -3,6 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 def install_chrome():
     os.system('sbase install chromedriver')
@@ -21,7 +26,7 @@ class WebScraper:
         self.chrome_options.add_argument('--disable-dev-shm-usage')
 
         # Initialize the Chrome driver with the defined options
-        self.driver = webdriver.Chrome(options=self.chrome_options)
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.chrome_options)
 
     def handle_cookies(self, url):
         """
