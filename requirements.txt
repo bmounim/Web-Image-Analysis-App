@@ -11,5 +11,5 @@ google-cloud-translate
 google-cloud-automl
 vertexai
 #seleniumbase
---upgrade webdriver_manager
+webdriver-manager
 #chromedriver-binary
