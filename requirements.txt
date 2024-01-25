@@ -1,7 +1,7 @@
 webdriver-manager
 streamlit
 Pillow
-google-api-python-client
+
 seleniumbase
 xlsxwriter
 pandas
@@ -13,6 +13,7 @@ google-cloud-storage
 google-cloud-translate 
 google-cloud-automl
 vertexai
+google-api-python-client
 #seleniumbase
 webdriver-manager
 #chromedriver-binary
