@@ -22,7 +22,8 @@ def analyze_image(model, prompt, image):
                 glm.Part(text=prompt),
                 glm.Part(
                     inline_data=glm.Blob(
-                        mime_type='image/png'
+                        mime_type='image/png',
+                        data=image
                     )
                 ),
             ],
