@@ -21,11 +21,13 @@ def process_response(response_text):
     yes_no = "yes" if "yes" in response_text.lower() else "no" if "no" in response_text.lower() else "unknown"
     return {"yes or no": yes_no, "additional_infos": response_text}
 
-def analyze_image_for_criteria(image_file, project_id, region):
+def analyze_image_for_criteria(image_file, project_id, region,prompts):
     init_vertex_ai(project_id, region)
     image = Image.load_from_file(image_file)
     model = initialize_model()
 
+    prompts = prompts
+    
     prompts = [
         "Scan for delivery logos: DHL, Hermes, DPD, UPS, FedEx, Deutsche Post. Yes or no? If yes, which and where?",
         "Detect payment logos: Visa, Mastercard, PayPal. Present, yes or no? If yes, specify brands and locations.",
