@@ -1,4 +1,5 @@
 #!/bin/bash
+git config --global http.sslverify "false"
 
 # Add all changes to git
 git add .
