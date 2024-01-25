@@ -23,7 +23,7 @@ def process_response(response_text):
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
     init_vertex_ai(project_id, region)
-    image = Image.load_from_file(image_file)
+    image = Image.open(image_file)
     model = initialize_model()
 
     prompts = prompts

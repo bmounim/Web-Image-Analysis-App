@@ -1,5 +1,6 @@
 webdriver-manager
 streamlit
+Pillow
 seleniumbase
 xlsxwriter
 pandas
