@@ -9,12 +9,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-def install_chrome():
-    os.system('sbase install chromedriver')
-    # Adjust the path based on where chromedriver is installed
-    os.system('ln -s /home/appuser/.cache/selenium/chromedriver/linux64/121.0.6167.85/chromedriver')
 
-_ = install_chrome()
 
 
 class WebScraper:
