@@ -1,6 +1,11 @@
 streamlit
-vertexai
 xlsxwriter
 pandas
 selenium
+pyvirtualdisplay
+google-cloud-aiplatform
 google-cloud-vision
+google-cloud-storage 
+google-cloud-translate 
+google-cloud-automl
+vertexai
