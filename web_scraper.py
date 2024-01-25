@@ -27,7 +27,7 @@ class WebScraper:
 
         # Initialize the Chrome driver with the defined options
         #self.driver = webdriver.Chrome(service=Service(ChromeDriverManager(driver_version="114.0.5735.90").install()), options=self.chrome_options)
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager(version='114.0.5735.90').install()))
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager(driver_version='114.0.5735.90').install()))
 
     def handle_cookies(self, url):
         """
