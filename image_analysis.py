@@ -4,6 +4,7 @@ import vertexai
 from vertexai.preview.generative_models import GenerativeModel, Image
 import os 
 import pandas as pd
+from PIL import Image
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
 
