@@ -2,6 +2,15 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os 
+
+def install_chrome():
+    os.system('sbase install chromedriver')
+    # Adjust the path based on where chromedriver is installed
+    #os.system('ln -s /path/to/chromedriver /home/appuser/venv/bin/chromedriver')
+
+_ = install_chrome()
+
 
 class WebScraper:
     def __init__(self):
