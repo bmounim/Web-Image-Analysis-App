@@ -26,7 +26,7 @@ class WebScraper:
         self.chrome_options.add_argument('--disable-dev-shm-usage')
 
         # Initialize the Chrome driver with the defined options
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="4.0.1").install()), options=self.chrome_options)
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager(driver_version="4.0.1").install()), options=self.chrome_options)
 
     def handle_cookies(self, url):
         """
