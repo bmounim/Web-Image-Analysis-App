@@ -3,9 +3,10 @@ xlsxwriter
 pandas
 selenium
 pyvirtualdisplay
-google-cloud-aiplatform
+google-cloud-aiplatform == 1.40.0
 google-cloud-vision
 google-cloud-storage 
 google-cloud-translate 
 google-cloud-automl
 vertexai
+chromedriver_installer
