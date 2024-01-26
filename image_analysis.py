@@ -53,7 +53,7 @@ def analyze_image(model, prompt, image):
         stream=True)
 
         print(response)
-        response = model.generate_content([prompt, image])
+        #response = model.generate_content([prompt, image])
         #response.resolve()
         response_text=response.text
         return response_text
