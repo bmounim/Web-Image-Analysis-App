@@ -1,7 +1,6 @@
 # config.py
 
 import os
-from src.utils import get_env_variable
 import streamlit as st
 # Google Cloud settings
 #GOOGLE_PROJECT_ID = get_env_variable('GOOGLE_PROJECT_ID', "jovial-circuit-412017")
