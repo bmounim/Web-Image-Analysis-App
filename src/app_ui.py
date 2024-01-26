@@ -79,15 +79,4 @@ def render_download_button(xlsx_data):
         mime="application/vnd.ms-excel"
     )
 
-def main():
-    load_css()
-    render_navbar()
-    render_header()
-    url_input, selected_country, analyze_button = render_input_section()
-    if analyze_button:
-        st.write("Analysis started for URL:", url_input)
-    render_about_section()
-    render_footer()
 
-if __name__ == "__main__":
-    main()
