@@ -40,13 +40,12 @@ def render_input_section():
     """
     st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
 
-    # List of countries for selection
     countries = ["Germany", "Spain", "France", "Brazil", "Italy", "UAE", "Japan", "US"]
     selected_country = st.selectbox("Choose a country:", countries)
 
     url_input = st.text_input("Enter the URL of the website:", "")
 
-    analyze_button = st.button("Analyze") # Button to trigger analysis
+    analyze_button = st.button("Analyze")
 
     return url_input, selected_country, analyze_button
 
@@ -72,7 +71,6 @@ def render_footer():
 def render_download_button(xlsx_data):
     """
     Renders a download button for the XLSX data.
-    :param xlsx_data: The XLSX data to be downloaded.
     """
     st.download_button(
         label="Download Results as XLSX",
@@ -81,14 +79,12 @@ def render_download_button(xlsx_data):
         mime="application/vnd.ms-excel"
     )
 
-# Main function to render the app
 def main():
     load_css()
     render_navbar()
     render_header()
     url_input, selected_country, analyze_button = render_input_section()
     if analyze_button:
-        # Placeholder for analysis logic
         st.write("Analysis started for URL:", url_input)
     render_about_section()
     render_footer()

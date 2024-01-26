@@ -186,10 +186,10 @@ def main():
     # Render the UI components
     app_ui.render_navbar()
     app_ui.render_header()
-    url, selected_country = app_ui.render_input_section()
+    url, selected_country,analyze_button = app_ui.render_input_section()
 
 
-    if st.button('Analyze'):
+    if analyze_button:
         # Initialize WebScraper and capture a screenshot
         scraper = WebScraper()
         scraper.handle_cookies(url)
