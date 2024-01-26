@@ -195,7 +195,7 @@ def main():
         # Initialize WebScraper and capture a screenshot
         scraper = WebScraper()
         scraper.handle_cookies(url)
-        screenshot_data = scraper.capture_and_return_fullpage_screenshot(url)
+        screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
         scraper.close()
 
         # Initialize TextDetector and analyze the image for text
@@ -211,7 +211,7 @@ def main():
         processed_text_results = text_generator.process_responses(text_responses, prompts)
 
         # Analyze the image for specific criteria using Image Analysis
-        image_analysis_results = analyze_image_for_criteria(r"screenshot.png", GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
+        image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
 
         # Data Management and Export
         rename_mappings = {'yes or no': 'yes/no(1/0)'}

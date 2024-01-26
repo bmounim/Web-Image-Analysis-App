@@ -137,7 +137,7 @@ class WebScraper:
 
         print(f"Screenshot saved at {screenshot_path}")
 
-        return png
+        return png,screenshot_path
 
     def close(self):
         """
