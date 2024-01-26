@@ -131,7 +131,7 @@ class WebScraper:
         png = self.driver.get_screenshot_as_png()
 
         # Save the screenshot to a file
-        screenshot_path = "assets\screenshot.png"  # Local path
+        screenshot_path = "assets/screenshot.png"  # Local path
         with open(screenshot_path, "wb") as file:
             file.write(png)
 
