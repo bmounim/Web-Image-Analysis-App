@@ -202,7 +202,7 @@ def main():
     # Render the UI components
     app_ui.render_navbar()
     app_ui.render_header()
-    url, selected_country,analyze_button = app_ui.render_input_section()
+    url, selected_country,analyze_button = app_ui.render_input_section2()
 
 
     if analyze_button:
