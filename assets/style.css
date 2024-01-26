@@ -1,5 +1,4 @@
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;700&display=swap');
 
 /* Global Styles */
 body {
@@ -7,47 +6,85 @@ body {
     font-size: 16px;
     line-height: 1.6;
     margin: 0;
-    padding-top: 60px; /* Adjust for fixed navbar */
+    padding-top: 60px;
     background-color: #f4f4f4;
-    color: #333; /* Improved contrast */
+    color: #333;
 }
 
 /* Navbar Styles */
 .navbar {
-    background-color: #0056b3; /* Updated color */
-    /* other styles remain the same */
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
 }
 
 .navbar a {
-    color: white;
-    /* other styles remain the same */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+    float: left;
+    display: block;
+    color: #007bff;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 17px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.navbar a:hover, .navbar a:focus {
-    background-color: #003d82; /* Darker shade on hover/focus */
-    color: #fff;
+.navbar a:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Header Styles */
+.app-header h1 {
+    font-family: 'Merriweather', serif;
+    color: #333;
+    /* Additional styling */
+}
+
+.app-description {
+    /* Styling for description */
 }
 
 /* Button Styles */
-form button {
-    background-color: #4CAF50; /* Green color for better visibility */
-    border-radius: 8px; /* Rounded corners */
-    /* other styles remain the same */
+button {
+    background-image: linear-gradient(to right, #4CAF50, #81C784);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-image 0.3s;
 }
 
-form button:hover, form button:focus {
-    background-color: #3a8e40; /* Darker shade on hover/focus */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+button:hover {
+    background-image: linear-gradient(to right, #388E3C, #66BB6A);
 }
 
 /* Footer Styles */
 .footer {
-    background-color: #2c3e50; /* Darker color for contrast */
-    /* other styles remain the same */
+    text-align: center;
+    padding: 1rem;
+    background-color: #2c3e50;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* Responsive adjustments */
+    .navbar a {
+        float: none;
+        display: block;
+        text-align: left;
+        padding: 10px;
+    }
+    
+    .footer {
+        position: relative;
+    }
 }
