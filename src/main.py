@@ -207,52 +207,53 @@ def main():
 
     if analyze_button:
         # Initialize WebScraper and capture a screenshot
-        scraper = WebScraper()
-        scraper.handle_cookies(url)
-        screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
-        scraper.close()
+        for url in url : 
+            scraper = WebScraper()
+            scraper.handle_cookies(url)
+            screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
+            scraper.close()
 
-        # Initialize TextDetector and analyze the image for text
-        text_detector = TextDetector()
-        detected_texts = text_detector.analyze_image_for_text(screenshot_data)
-        text_criteria_results = text_detector.process_detected_text(detected_texts)
+            # Initialize TextDetector and analyze the image for text
+            text_detector = TextDetector()
+            detected_texts = text_detector.analyze_image_for_text(screenshot_data)
+            text_criteria_results = text_detector.process_detected_text(detected_texts)
 
-        # Initialize TextGenerator and generate text responses
-        text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
-        prompts = get_prompts_for_country_text(selected_country)  
-        parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
-        text_responses = text_generator.generate_text_responses(prompts, parameters)
-        processed_text_results = text_generator.process_responses(text_responses, prompts)
-        genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+            # Initialize TextGenerator and generate text responses
+            text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
+            prompts = get_prompts_for_country_text(selected_country)  
+            parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
+            text_responses = text_generator.generate_text_responses(prompts, parameters)
+            processed_text_results = text_generator.process_responses(text_responses, prompts)
+            genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 
-        # Analyze the image for specific criteria using Image Analysis
-        image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
+            # Analyze the image for specific criteria using Image Analysis
+            image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
 
-        # Data Management and Export
-        rename_mappings = {'yes or no': 'yes/no(1/0)'}
-        convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
-        #processed_text_results=DataManager.preprocess_dataframe(processed_text_results,rename_mappings=rename_mappings,convert_columns=convert_columns)
-        #image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
-        final_results = DataManager.merge_dataframes([processed_text_results, image_analysis_results])
-        final_results['yes or no'] = final_results['yes or no'].map({'yes': 1, 'no': 0})
-        
-        parsed_url = urlparse(url)
-        domain_name = parsed_url.netloc
+            # Data Management and Export
+            rename_mappings = {'yes or no': 'yes/no(1/0)'}
+            convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
+            #processed_text_results=DataManager.preprocess_dataframe(processed_text_results,rename_mappings=rename_mappings,convert_columns=convert_columns)
+            #image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
+            final_results = DataManager.merge_dataframes([processed_text_results, image_analysis_results])
+            final_results['yes or no'] = final_results['yes or no'].map({'yes': 1, 'no': 0})
+            
+            parsed_url = urlparse(url)
+            domain_name = parsed_url.netloc
 
-# Extracting just the 'kaufland' part from the domain name
-        extracted_name = domain_name.split('.')[1] 
-        
-        final_results.insert(0, 'Company_Name', extracted_name)
+    # Extracting just the 'kaufland' part from the domain name
+            extracted_name = domain_name.split('.')[1] 
+            
+            final_results.insert(0, 'Company_Name', extracted_name)
 
-        # Add 'Company_Url' column at the second position
-        final_results.insert(1, 'Company_Url', url)
-         # This assumes the format is [subdomain].[name].[tld]
+            # Add 'Company_Url' column at the second position
+            final_results.insert(1, 'Company_Url', url)
+            # This assumes the format is [subdomain].[name].[tld]
 
-        xlsx_data = DataManager.convert_df_to_xlsx(final_results)
+            xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
-        # Render the download button for the results
-        app_ui.render_download_button(xlsx_data)
+            # Render the download button for the results
+            app_ui.render_download_button(xlsx_data)
 
     app_ui.render_about_section()
     app_ui.render_footer()

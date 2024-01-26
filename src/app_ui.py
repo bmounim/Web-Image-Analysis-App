@@ -61,6 +61,42 @@ def render_about_section():
     """
     st.markdown(about_html, unsafe_allow_html=True)
 
+
+
+
+
+
+
+
+
+
+
+def render_input_section2():
+    """
+    Renders the input section where users can input data.
+    """
+    st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
+
+   # st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
+
+    countries = ["Germany", "Spain", "France", "Brazil", "Italy", "UAE", "Japan", "US"]
+    selected_country = st.selectbox("Choose a country:", countries)
+
+    # Initialize the session state for storing URLs
+    if 'url_list' not in st.session_state:
+        st.session_state.url_list = []
+
+    url_input = st.text_input("Enter the URL of the website:", "")
+    add_url_button = st.button("Add URL")
+    analyze_button = st.button("Analyze")
+
+    # Add URL to the list
+    if add_url_button and url_input:
+        st.session_state.url_list.append(url_input)
+        st.success(f"Added: {url_input}")
+
+    return  st.session_state.url_list,selected_country, analyze_button
+
 def render_footer():
     """
     Renders the footer of the app.
