@@ -8,7 +8,7 @@ from io import BytesIO
 from PIL import Image
 import google.ai.generativelanguage as glm
 import google.generativeai as genai
-
+import io
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
 
 def init_vertex_ai(project_id, region):
@@ -20,14 +20,23 @@ def initialize_model():
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
 
-        image = Image.open(image)
+        with Image.open(image) as img:
+            img_format = img.format  # Preserve the original format
 
-        bytes_data = BytesIO()
-        image.save(bytes_data, format='PNG')
-        bytes_data = bytes_data.getvalue()
+            # Compress or resize the image if needed
+            # Example: Resize if width or height is greater than a certain value
+            if img.width > 1024 or img.height > 1024:
+                img.thumbnail((1024, 1024))
 
-
-
+            # Convert to bytes
+            bytes_io = io.BytesIO()
+            img.save(bytes_io, format=img_format, quality=85)  # Adjust quality for size
+            bytes_data = bytes_io.getvalue()
+        
+            # Check size
+        if len(bytes_data) > 4194304:  # 4 MB
+            raise ValueError("Image size after compression is still too large.")
+       
         response = model.generate_content(
         glm.Content(
             parts = [

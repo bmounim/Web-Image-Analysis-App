@@ -11,6 +11,10 @@ import app_ui
 from config import GOOGLE_PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, VERTEX_AI_REGION
 import os
 import google.generativeai as genai
+
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+
+
 def get_prompts_for_country_text(country):
     prompts_dict = {
         "Germany": ["Determine if the following text is in German. Respond with 'yes' or 'no' and briefly explain your reasoning in one sentence: {full_text}",
