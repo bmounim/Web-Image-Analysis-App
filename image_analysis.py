@@ -4,6 +4,7 @@ import vertexai
 from vertexai.preview.generative_models import GenerativeModel, Image
 import os 
 import pandas as pd
+from io import BytesIO
 from PIL import Image
 import google.ai.generativelanguage as glm
 
@@ -16,8 +17,14 @@ def initialize_model():
     return GenerativeModel("gemini-pro-vision")
 
 def analyze_image(model, prompt, image):
-        bytes_data = image.getvalue()
+        #bytes_data = image.getvalue()
+
         image = Image.open(image)
+
+        bytes_data = BytesIO()
+        image.save(bytes_data, format='PNG')
+        bytes_data = bytes_data.getvalue()
+
 
 
         response = model.generate_content(
