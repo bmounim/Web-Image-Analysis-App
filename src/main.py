@@ -180,6 +180,20 @@ def get_prompts_for_country_images(country):
 
 def main():
     os.environ['GRPC_DNS_RESOLVER'] = 'native'
+
+    st.markdown("""
+        <style>
+        [data-testid="stAppViewContainer"] > .main {
+            background: linear-gradient(45deg, #f3f2f7, #e0e0e0);
+        }
+        .icon {
+            font-size: 1.5em;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
     # Load CSS for the Streamlit app
     app_ui.load_css()
 
