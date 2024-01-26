@@ -8,7 +8,7 @@ from text_detection import TextDetector
 from text_generation import TextGenerator
 from data_manager import DataManager
 import app_ui
-#from config import GOOGLE_PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, VERTEX_AI_REGION
+from config import GOOGLE_PROJECT_ID, VERTEX_AI_REGION
 import os
 import google.generativeai as genai
 
