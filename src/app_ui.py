@@ -108,11 +108,17 @@ def render_download_button(xlsx_data):
     """
     Renders a download button for the XLSX data.
     """
+def render_download_button(xlsx_data, button_key):
+    """
+    Renders a download button for the XLSX data with a unique key.
+    """
     st.download_button(
-        label="Download Results as XLSX",
+        label=f"Download Results as XLSX ({button_key})",
         data=xlsx_data,
-        file_name="analysis_results.xlsx",
-        mime="application/vnd.ms-excel"
+        file_name=f"analysis_results_{button_key}.xlsx",
+        mime="application/vnd.ms-excel",
+        key=button_key  # Unique key for each button
     )
+
 
 
