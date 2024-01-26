@@ -104,10 +104,7 @@ def render_footer():
     footer_html = '<div class="footer">© 2024 Web Analysis Tool. All rights reserved.</div>'
     st.markdown(footer_html, unsafe_allow_html=True)
 
-def render_download_button(xlsx_data):
-    """
-    Renders a download button for the XLSX data.
-    """
+
 def render_download_button(xlsx_data, button_key):
     """
     Renders a download button for the XLSX data with a unique key.
