@@ -16,6 +16,8 @@ def initialize_model():
     return GenerativeModel("gemini-pro-vision")
 
 def analyze_image(model, prompt, image):
+        image = Image.open(image)
+
         response = model.generate_content(
         glm.Content(
             parts = [
