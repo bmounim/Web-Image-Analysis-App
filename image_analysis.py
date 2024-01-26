@@ -54,7 +54,8 @@ def analyze_image(model, prompt, image):
         print(response)
         #response = model.generate_content([prompt, image])
         response.resolve()
-        return response.text
+        response=response.text
+        return response
     
 def process_response(response_text):
     yes_no = "yes" if "yes" in response_text.lower() else "no" if "no" in response_text.lower() else "unknown"
