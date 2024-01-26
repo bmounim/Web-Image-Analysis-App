@@ -10,7 +10,7 @@ import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
 import streamlit as st
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 
 def init_vertex_ai(project_id, region):
     vertexai.init(project=project_id, location=region,api_endpoint='us-central1-aiplatform.googleapis.com')

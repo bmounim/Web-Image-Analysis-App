@@ -9,7 +9,7 @@ from google.cloud import vision
 import pandas as pd
 import os 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 
 class TextDetector:
     def __init__(self):
@@ -58,7 +58,7 @@ class TextDetector:
 
 # Example usage
 if __name__ == "__main__":
-    detector = TextDetector("GCP_key.json")
+    detector = TextDetector("GCP_keys.json")
     with open("path_to_image.jpg", "rb") as image_file:
         image_data = image_file.read()
     

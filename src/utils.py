@@ -13,7 +13,7 @@ def get_env_variable(var_name, default_value=None):
     """
     return os.getenv(var_name, default_value)
 
-def setup_logging(default_path='GCP_key.json', default_level=logging.INFO, env_key='LOG_CFG'):
+def setup_logging(default_path='GCP_keys.json', default_level=logging.INFO, env_key='LOG_CFG'):
     """
     Setup logging configuration.
     """
