@@ -105,16 +105,16 @@ def render_footer():
     st.markdown(footer_html, unsafe_allow_html=True)
 
 
-def render_download_button(xlsx_data, button_key):
+def render_download_button(xlsx_data, key):
     """
     Renders a download button for the XLSX data with a unique key.
     """
     st.download_button(
-        label=f"Download Results as XLSX ({button_key})",
+        label=f"Download Results as XLSX ({key})",
         data=xlsx_data,
-        file_name=f"analysis_results_{button_key}.xlsx",
+        file_name=f"analysis_results_{key}.xlsx",
         mime="application/vnd.ms-excel",
-        key=button_key  # Unique key for each button
+        key=key  # Unique key for each button
     )
 
 
