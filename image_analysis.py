@@ -16,7 +16,9 @@ def initialize_model():
     return GenerativeModel("gemini-pro-vision")
 
 def analyze_image(model, prompt, image):
+        bytes_data = image.getvalue()
         image = Image.open(image)
+
 
         response = model.generate_content(
         glm.Content(
@@ -25,7 +27,7 @@ def analyze_image(model, prompt, image):
                 glm.Part(
                     inline_data=glm.Blob(
                         mime_type='image/png',
-                        data=image
+                        data=bytes_data
                     )
                 ),
             ],
