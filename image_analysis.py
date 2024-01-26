@@ -9,17 +9,18 @@ from PIL import Image
 import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
+import streamlit as st
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
 
 def init_vertex_ai(project_id, region):
     vertexai.init(project=project_id, location=region,api_endpoint='us-central1-aiplatform.googleapis.com')
 
 def initialize_model():
+    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
     return genai.GenerativeModel("gemini-pro-vision")
 
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
-
         with Image.open(image) as img:
             img_format = img.format  # Preserve the original format
 
@@ -62,7 +63,7 @@ def process_response(response_text):
     return {"yes or no": yes_no, "additional_infos": response_text}
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
-    init_vertex_ai(project_id, region)
+    #init_vertex_ai(project_id, region)
     #image = Image.open(image_file)
     model = initialize_model()
     image=image_file
