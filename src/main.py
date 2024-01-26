@@ -207,7 +207,7 @@ def main():
 
     if analyze_button:
         # Initialize WebScraper and capture a screenshot
-        for url in url : 
+        for index, url in enumerate(url): 
             scraper = WebScraper()
             scraper.handle_cookies(url)
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
@@ -253,7 +253,11 @@ def main():
             xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
             # Render the download button for the results
-            app_ui.render_download_button(xlsx_data)
+            # Create a unique key for each download button
+            download_button_key = f"download_button_{index}"
+
+            # Render the download button with the unique key
+            app_ui.render_download_button(xlsx_data, key=download_button_key)
 
     app_ui.render_about_section()
     app_ui.render_footer()
