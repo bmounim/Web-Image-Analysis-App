@@ -109,10 +109,11 @@ class WebScraper:
         """
         self.driver.get(url)
 
-        
+        try:
             # Wait for the cookie banner to become clickable and click it
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="uc-btn-accept-banner"]'))).click()
-        
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="uc-btn-accept-banner"]'))).click()
+        except Exception as e:
+            print(f"Cookie banner not found or could not be clicked: {str(e)}")
 
     def capture_and_return_fullpage_screenshot(self, url):
         """
