@@ -163,6 +163,13 @@ def get_prompts_for_country_images(country):
     "Detect payment logos: Visa, Mastercard, PayPal. Are these logos in the image? If yes, specify which brands are present and their locations.",
     "Look for payment logos: 各種クレジットカード(kurejitto ka-do: credit cards), コンビニ決済(konbini kesai: convenience store payment), 代金引換(daikin hikikae: cash on delivery). Are these logos in the image? If yes, specify their locations.",
     "Identify if there is a chat support icon in the image. If yes, locate and describe its position."
+],
+
+    "US" : [
+    "Scan for delivery logos: UPS, FedEx, USPS (United States Postal Service). Yes or no? If yes, which and where?",
+    "Detect payment logos: Visa, Mastercard, PayPal. Present, yes or no? If yes, specify brands and locations.",
+    "Look for payment logos: American Express, Venmo, Cash App. Are they in the image? If yes, identify brands and their locations.",
+    "Look for chat support icons. Are they in the image? If yes, identify their locations."
 ]
 
     
