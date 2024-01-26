@@ -29,7 +29,7 @@ def get_prompts_for_country_text(country):
         "Check if there's a phone number in the text. Answer 'yes' or 'no'. If 'yes', please provide the phone number: {full_text}"
 
    ],
-        "Spain" : [
+    "Spain" : [
         "Check if the text mentions 'trustpilot', 'avis verifies', or 'google reviews'. Respond 'yes' or 'no'. If 'yes', indicate where it is in the text, provide the Spanish original, and describe its location in the OCR-extracted image: {full_text}",
         "Determine if the text in the image is in Spanish. Reply with 'yes' or 'no' and briefly explain your reasoning: {full_text}",
         "Identify any occurrences of 'sale', 'venta', 'rebajas', 'oferta', 'descuento', or 'promoción' in the text. Answer 'yes' or 'no'. If 'yes', indicate their location in the text, provide the Spanish phrases, and specify their position in the OCR-extracted image: {full_text}",
@@ -137,7 +137,7 @@ def get_prompts_for_country_images(country):
     "Identify if there is a chat support icon in the image. If yes, locate and describe its position."
 ],
 
-    "Brazil " : [
+    "Brazil" : [
     "Detect payment logos: Visa, Mastercard, PayPal. Are these logos in the image? If yes, specify which brands are present and their locations.",
     "Look for payment logos: Elo, Hipercard, boleto bancário, PIX. Are these logos in the image? If yes, specify which brands are present and their locations.",
     "Check for the presence of the text 'FAQ' or its Portuguese equivalents 'perguntas frequentes' or 'dúvidas frequentes' or 'perguntas e respostas' in the image. If found, specify the location of the text.",
