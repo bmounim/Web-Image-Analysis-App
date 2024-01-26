@@ -29,7 +29,7 @@ def analyze_image(model, prompt, image):
                     )
                 ),
             ],
-        ),
+        ),      
         stream=True)
         response = model.generate_content([prompt, image])
         return response.text
