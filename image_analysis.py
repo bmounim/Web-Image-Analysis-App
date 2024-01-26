@@ -7,6 +7,7 @@ import pandas as pd
 from io import BytesIO
 from PIL import Image
 import google.ai.generativelanguage as glm
+import google.generativeai as genai
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_key.json"
 
@@ -14,7 +15,7 @@ def init_vertex_ai(project_id, region):
     vertexai.init(project=project_id, location=region,api_endpoint='us-central1-aiplatform.googleapis.com')
 
 def initialize_model():
-    return GenerativeModel("gemini-pro-vision")
+    return genai.GenerativeModel("gemini-pro-vision")
 
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
@@ -43,7 +44,7 @@ def analyze_image(model, prompt, image):
 
         print(response)
         #response = model.generate_content([prompt, image])
-        #response.resolve()
+        response.resolve()
         return response
     
 def process_response(response_text):
