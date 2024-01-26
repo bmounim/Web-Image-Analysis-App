@@ -43,7 +43,7 @@ def render_input_section():
     st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
 
     # List of countries for selection
-    countries = ["Germany","Spain","France","Brazil","Italy","UAE","Japan"]
+    countries = ["Germany","Spain","France","Brazil","Italy","UAE","Japan","US"]
     selected_country = st.selectbox("Choose a country:", countries)
 
     url_input = st.text_input("Enter the URL of the website:", "")
