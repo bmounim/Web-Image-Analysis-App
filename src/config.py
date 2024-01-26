@@ -1,7 +1,7 @@
 # config.py
 
 import os
-from utils import get_env_variable
+from src.utils import get_env_variable
 
 # Google Cloud settings
 GOOGLE_PROJECT_ID = get_env_variable('GOOGLE_PROJECT_ID', "jovial-circuit-412017")
