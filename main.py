@@ -10,7 +10,7 @@ from data_manager import DataManager
 import app_ui
 from config import GOOGLE_PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, VERTEX_AI_REGION
 import os
-
+import google.generativeai as genai
 def get_prompts_for_country_text(country):
     prompts_dict = {
         "Germany": ["Determine if the following text is in German. Respond with 'yes' or 'no' and briefly explain your reasoning in one sentence: {full_text}",
@@ -209,7 +209,7 @@ def main():
         parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
         text_responses = text_generator.generate_text_responses(prompts, parameters)
         processed_text_results = text_generator.process_responses(text_responses, prompts)
-
+        genai.configure(api_key=GOOGLE_API_KEY)
         # Analyze the image for specific criteria using Image Analysis
         image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
 
