@@ -54,7 +54,7 @@ def analyze_image(model, prompt, image):
 
         print(response)
         #response = model.generate_content([prompt, image])
-        #response.resolve()
+        response.resolve()
         response_text=response.text
         return response_text
     
