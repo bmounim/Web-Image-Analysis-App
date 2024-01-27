@@ -1,5 +1,4 @@
 # main.py
-import zipfile
 import pandas as pd
 from urllib.parse import urlparse
 import streamlit as st
@@ -12,8 +11,6 @@ import app_ui
 from config import GOOGLE_PROJECT_ID, VERTEX_AI_REGION
 import os
 import google.generativeai as genai
-import io
-#import zip
 
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
@@ -232,14 +229,8 @@ def main():
     url, selected_country,analyze_button = app_ui.render_input_section2()
 
 
-    def create_zip_file(files):
-        zip_buffer = io.BytesIO()
-        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED, False) as zip_file:
-            for file_name, data in files.items():
-                zip_file.writestr(file_name, data.getvalue())
-        return zip_buffer.getvalue()
+
     if analyze_button:
-        xlsx_files = {}
         # Initialize WebScraper and capture a screenshot
         for index, url in enumerate(url): 
             scraper = WebScraper()
@@ -285,24 +276,13 @@ def main():
             # This assumes the format is [subdomain].[name].[tld]
 
             xlsx_data = DataManager.convert_df_to_xlsx(final_results)
-            
-            file_name = f"analysis_results_{index}.xlsx"
-            xlsx_files[file_name] = xlsx_data
 
-            # Create a zip file with all the XLSX files
-        if xlsx_files:
-            zip_data = create_zip_file(xlsx_files)
-            st.download_button(
-                label="Download All Results as ZIP",
-                data=zip_data,
-                file_name="all_analysis_results.zip",
-                mime="application/zip"
-            )# Render the download button for the results
+            # Render the download button for the results
             # Create a unique key for each download button
-            #download_button_key = f"download_button_{index}"
+            download_button_key = f"download_button_{index}"
 
             # Render the download button with the unique key
-            #app_ui.render_download_button(xlsx_data, key=download_button_key)
+            app_ui.render_download_button(xlsx_data, key=download_button_key)
 
     app_ui.render_about_section()
     app_ui.render_footer()
