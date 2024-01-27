@@ -43,7 +43,7 @@ def get_chromedriver_path():
 @st.cache_resource(show_spinner=False)
 def get_webdriver_options():
     options = Options()
-    #options.add_argument("--headless")
+    options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
@@ -93,7 +93,7 @@ class WebScraper:
         
         # Define Chrome options for headless mode
         self.chrome_options = webdriver.ChromeOptions()
-        #self.chrome_options.add_argument('--headless')
+        self.chrome_options.add_argument('--headless')
         self.chrome_options.add_argument('--no-sandbox')
         self.chrome_options.add_argument('--disable-dev-shm-usage')
 
