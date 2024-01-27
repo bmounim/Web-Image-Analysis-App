@@ -8,8 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-
+import time 
 import os
 import shutil
 
@@ -122,6 +121,8 @@ class WebScraper:
         :return: PNG image data of the screenshot.
         """
         self.driver.get(url)
+        time.sleep(10)
+        self.driver.execute_script("return document.readyState")
 
         # Additional functionality can be added here (e.g., handling cookie notices)
 
