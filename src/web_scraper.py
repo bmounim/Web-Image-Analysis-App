@@ -80,7 +80,7 @@ def run_selenium(logpath):
     with webdriver.Chrome(options=get_webdriver_options(), service=get_webdriver_service(logpath=logpath)) as driver:
         url = "https://www.unibet.fr/sport/football/europa-league/europa-league-matchs"
         driver.get(url)
-        xpath = '//*[@class="ui-mainview-block eventpath-wrapper"]'
+        xpath = '//*[@id="onetrust-accept-btn-handler"]'
         # Wait for the element to be rendered:
         element = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.XPATH, value=xpath))
         name = element[0].get_property('attributes')[0]['name']
@@ -106,12 +106,8 @@ class WebScraper:
         :param url: The URL where the cookie banner needs to be handled.
         """
         self.driver.get(url)
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="onetrust-accept-btn-handler"]'))).click()
 
-        try:
-            # Wait for the cookie banner to become clickable and click it
-            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="uc-btn-accept-banner"]'))).click()
-        except Exception as e:
-            print(f"Cookie banner not found or could not be clicked: {str(e)}")
 
     def capture_and_return_fullpage_screenshot(self, url):
         """
@@ -123,7 +119,7 @@ class WebScraper:
         time.sleep(10)
         self.driver.execute_script("return document.readyState")
 
-        # Additional functionality can be added here (e.g., handling cookie notices)
+        # Additional "functionality can be added here (e.g., handling cookie notices)
 
         # Trigger JavaScript to get the full page screenshot
         result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
