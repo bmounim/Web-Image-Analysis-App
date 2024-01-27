@@ -7,7 +7,7 @@ def load_css():
     with open("assets/style.css") as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-def render_navbar2():
+def render_navbar():
     navbar_html = """
     <nav class="navbar">
         <a href="#home"><i class="fas fa-home navbar-icon"></i>Home</a>
@@ -18,7 +18,6 @@ def render_navbar2():
     </nav>
     """
     st.markdown(navbar_html, unsafe_allow_html=True)
-
 
 def render_navbar():
     """
