@@ -90,7 +90,6 @@ def run_selenium(logpath):
 class WebScraper:
     def __init__(self):
         logpath=get_logpath()
-        
         # Define Chrome options for headless mode
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument('--headless')
