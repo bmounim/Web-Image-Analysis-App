@@ -1,3 +1,4 @@
+zip
 webdriver-manager
 streamlit
 Pillow
@@ -14,7 +15,6 @@ google-cloud-storage
 google-cloud-translate 
 google-cloud-automl
 vertexai
-zip
 #seleniumbase
 webdriver-manager
 #chromedriver-binary
