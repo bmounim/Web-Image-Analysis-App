@@ -1,4 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+.navbar-icon {
+    margin-right: 5px;
+}
+
+.navbar a {
+    /* existing styles */
+    display: flex;
+    align-items: center; /* Align text and icons */
+}
+
 
 /* Global Styles */
 /* Global Styles */

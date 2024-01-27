@@ -7,6 +7,19 @@ def load_css():
     with open("assets/style.css") as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+def render_navbar2():
+    navbar_html = """
+    <nav class="navbar">
+        <a href="#home"><i class="fas fa-home navbar-icon"></i>Home</a>
+        <a href="#about"><i class="fas fa-info-circle navbar-icon"></i>About</a>
+        <a href="#contact"><i class="fas fa-envelope navbar-icon"></i>Contact</a>
+        <a href="#sign-up"><i class="fas fa-user-plus navbar-icon"></i>Sign-Up</a>
+        <a href="#sign-in"><i class="fas fa-sign-in-alt navbar-icon"></i>Sign-In</a>
+    </nav>
+    """
+    st.markdown(navbar_html, unsafe_allow_html=True)
+
+
 def render_navbar():
     """
     Renders the navigation bar for the app.

@@ -200,7 +200,7 @@ def main():
     app_ui.load_css()
 
     # Render the UI components
-    app_ui.render_navbar()
+    app_ui.render_navbar2()
     app_ui.render_header()
     url, selected_country,analyze_button = app_ui.render_input_section2()
 
