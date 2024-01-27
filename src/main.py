@@ -12,7 +12,7 @@ from config import GOOGLE_PROJECT_ID, VERTEX_AI_REGION
 import os
 import google.generativeai as genai
 import io
-import zip
+#import zip
 
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
