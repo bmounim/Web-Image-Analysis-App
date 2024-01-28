@@ -100,12 +100,24 @@ def render_input_section2():
 
     url_input = st.text_input("Enter the URL of the website:", "")
     add_url_button = st.button("Add URL")
+    reset_url_button = st.button("Reset URLs")
     analyze_button = st.button("Analyze")
 
     # Add URL to the list
     if add_url_button and url_input:
         st.session_state.url_list.append(url_input)
         st.success(f"Added: {url_input}")
+
+    # Display the list of added URLs
+    if st.session_state.url_list:
+        st.write("Added URLs:")
+        for url in st.session_state.url_list:
+            st.write(url)
+
+    # Reset the list of URLs
+    if reset_url_button:
+        st.session_state.url_list = []
+        st.info("URL list has been reset.")
 
     return  st.session_state.url_list,selected_country, analyze_button
 
