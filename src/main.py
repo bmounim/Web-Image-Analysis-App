@@ -276,12 +276,18 @@ def main():
 
             xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
+            st.session_state['results_data'][url] = xlsx_data
+
             # Render the download button for the results
             # Create a unique key for each download button
             download_button_key = f"download_button_{index}"
 
             # Render the download button with the unique key
-            app_ui.render_download_button(xlsx_data, key=download_button_key)
+            #app_ui.render_download_button(xlsx_data, key=download_button_key)
+        # Outside the if analyze_button block
+        for url, data in st.session_state['results_data'].items():
+            st.markdown(f"### Download Results for {url}")
+            app_ui.render_download_button(data, key=f"download_{url}")
 
     #app_ui.render_about_section()
     app_ui.render_footer()
