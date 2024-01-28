@@ -46,7 +46,7 @@ body {
     padding: 14px 20px;
     text-decoration: none;
     font-size: 17px;
-    
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar a:hover {
@@ -71,10 +71,11 @@ button {
     border-radius: 8px;
     padding: 10px 20px;
     cursor: pointer;
+    transition: background-image 0.3s;
 }
 
 button:hover {
-    background-image: linear-gradient(to right, #388E3C, #66BB6A);
+    opacity: 0.8;
 }
 
 .footer {
