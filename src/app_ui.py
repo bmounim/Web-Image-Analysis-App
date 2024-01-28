@@ -113,7 +113,7 @@ def render_footer():
     """
     Renders the footer of the app.
     """
-    footer_html = '<div class="footer">© 2024 Web Analysis Tool. All rights reserved.</div>'
+    footer_html = '<div class="footer">© 2024 GBS Web Audit. All rights reserved.</div>'
     st.markdown(footer_html, unsafe_allow_html=True)
 
 
