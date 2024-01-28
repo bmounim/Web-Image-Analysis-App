@@ -11,6 +11,9 @@ import app_ui
 from config import GOOGLE_PROJECT_ID, VERTEX_AI_REGION
 import os
 import google.generativeai as genai
+import os
+import zipfile
+import tempfile
 
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
@@ -227,10 +230,11 @@ def main():
     app_ui.render_header()
     url, selected_country,analyze_button = app_ui.render_input_section2()
 
+    def process_urls(url,selected_country) : 
 
+        temp_dir = tempfile.mkdtemp()
+        file_paths = []
 
-    if analyze_button:
-        # Initialize WebScraper and capture a screenshot
         for index, url in enumerate(url): 
             scraper = WebScraper()
             scraper.handle_cookies(url)
@@ -276,18 +280,52 @@ def main():
 
             xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
-            st.session_state['results_data'][url] = xlsx_data
+            xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}.xlsx")
+            with open(xlsx_file_path, "wb") as f:
+                f.write(xlsx_data)
+            file_paths.append(xlsx_file_path)
 
-            # Render the download button for the results
-            # Create a unique key for each download button
-            download_button_key = f"download_button_{index}"
 
-            # Render the download button with the unique key
-            #app_ui.render_download_button(xlsx_data, key=download_button_key)
-        # Outside the if analyze_button block
-        for url, data in st.session_state['results_data'].items():
-            st.markdown(f"### Download Results for {url}")
-            app_ui.render_download_button(data, key=f"download_{url}")
+    def make_zip_file(file_paths):
+        # Create a temporary file for the zip
+        zip_file = tempfile.NamedTemporaryFile(delete=False, suffix='.zip')
+        zip_file_path = zip_file.name
+
+        with zipfile.ZipFile(zip_file, 'w') as zipf:
+            for file in file_paths:
+                zipf.write(file, os.path.basename(file))
+
+        return zip_file_path
+
+
+    if analyze_button and url:
+
+        file_paths = process_urls(url)
+
+        zip_file_path = make_zip_file(file_paths)
+
+        with open(zip_file_path, "rb") as f:
+            st.download_button(
+                label="Download ZIP",
+                data=f,
+                file_name="all_results.zip",
+                mime="application/zip"
+            )
+        
+
+        # Initialize WebScraper and capture a screenshot
+        
+
+        #st.session_state['results_data'][url] = xlsx_data
+
+        # Render the download button for the results
+        # Create a unique key for each download button
+        #download_button_key = f"download_button_{index}"
+
+        # Render the download button with the unique key
+        #app_ui.render_download_button(xlsx_data, key=download_button_key)
+    # Outside the if analyze_button block
+
 
     #app_ui.render_about_section()
     app_ui.render_footer()
