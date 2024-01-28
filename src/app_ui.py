@@ -40,7 +40,7 @@ def render_header():
     """
     header_html = """
         <div class="app-header">
-            <h1 class="app-title">Webpage Image Analysis Tool</h1>
+            <h1 class="app-title">GBS Web Audit</h1>
             <p class="app-description">Capture and analyze website screenshots with AI-powered technology.</p>
         </div>
     """
@@ -50,7 +50,7 @@ def render_input_section():
     """
     Renders the input section where users can input data.
     """
-    st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
+    #st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
 
     countries = ["Germany", "Spain", "France", "Brazil", "Italy", "UAE", "Japan", "US"]
     selected_country = st.selectbox("Choose a country:", countries)
@@ -87,7 +87,7 @@ def render_input_section2():
     """
     Renders the input section where users can input data.
     """
-    st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
+    #st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
 
    # st.markdown('<div class="input-section"><h2>Start Analysis</h2></div>', unsafe_allow_html=True)
 
