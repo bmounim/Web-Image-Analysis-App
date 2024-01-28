@@ -300,7 +300,7 @@ def main():
 
     if analyze_button and url:
 
-        file_paths = process_urls(url)
+        file_paths = process_urls(url,selected_country)
 
         zip_file_path = make_zip_file(file_paths)
 
