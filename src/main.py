@@ -284,6 +284,7 @@ def main():
             with open(xlsx_file_path, "wb") as f:
                 f.write(xlsx_data)
             file_paths.append(xlsx_file_path)
+        return file_paths
 
 
     def make_zip_file(file_paths):
