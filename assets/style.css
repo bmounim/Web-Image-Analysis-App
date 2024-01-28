@@ -20,7 +20,6 @@ body {
     line-height: 1.6;
     margin: 0;
     padding-top: 60px; /* Adjust for fixed navbar */
-    background: linear-gradient(to bottom, #f4f4f4, #ffffff); /* Gradient from gray to white */
     color: #333;
 }
 
@@ -64,7 +63,6 @@ body {
 
 /* Button Styles */
 button {
-    background-image: linear-gradient(to right, #4CAF50, #81C784);
     color: white;
     border: none;
     border-radius: 8px;
