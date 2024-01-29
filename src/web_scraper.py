@@ -127,7 +127,7 @@ class WebScraper:
 
         # Additional functionality can be added here (e.g., handling cookie notices)
         #zoom_level = 150  # Adjust this value as needed (100 is default)
-        self.driver.execute_script("document.body.style.zoom='1000%'")
+        self.driver.execute_script("document.body.style.zoom='100%'")
         #self.driver.execute_script(f"document.body.style.transformOrigin = 'top left'")
 
         width = self.driver.execute_script("return document.body.scrollWidth")
