@@ -115,31 +115,6 @@ class WebScraper:
         except Exception as e:
             print(f"Cookie banner not found or could not be clicked: {str(e)}")
 
-    def take_multiple_screenshots(self, url):
-            self.driver.get(url)
-            time.sleep(10)  # Wait for the page to load
-
-            # Get scroll height
-            total_height = self.driver.execute_script("return document.body.scrollHeight")
-            viewport_height = self.driver.execute_script("return window.innerHeight")
-            num_screenshots = total_height // viewport_height + 1
-
-            screenshots = []
-            for i in range(num_screenshots):
-                # Scroll to the next viewport
-                self.driver.execute_script(f"window.scrollTo(0, {(i * viewport_height)});")
-                time.sleep(2)  # Wait for scroll to finish
-
-                # Capture screenshot
-                screenshot_data = self.driver.get_screenshot_as_png()
-                screenshot_path = f"assets/screenshot_{i}.png"
-                with open(screenshot_path, "wb") as file:
-                    file.write(screenshot_data)
-                screenshots.append((screenshot_data, screenshot_path))
-
-                print(f"Screenshot {i} saved at {screenshot_path}")
-
-            return screenshots
 
     def capture_and_return_fullpage_screenshot(self, url):
         """
@@ -154,8 +129,12 @@ class WebScraper:
         # Additional functionality can be added here (e.g., handling cookie notices)
 
         # Trigger JavaScript to get the full page screenshot
-        result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
-        self.driver.set_window_size(800, result)  # Width, Height
+        #result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
+        full_page_height = self.driver.execute_script("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );")
+
+        #self.driver.set_window_size(800, result)  # Width, Height
+        self.driver.set_window_size(1920, full_page_height)  # Adjust width as needed
+
         png = self.driver.get_screenshot_as_png()
 
         # Save the screenshot to a file
