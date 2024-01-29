@@ -428,7 +428,7 @@ def main():
             full_text = ' '.join(extracted_texts)  # Concatenates all extracted text into one string
 
             # Now use 'full_text' in your prompts
-            prompts_text = [prompt.format(full_text=full_text) for prompt in prompts_text]
+            All_prompts = [prompt.format(full_text=full_text) for prompt in All_prompts]
 
 
             #parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
@@ -436,7 +436,7 @@ def main():
             #processed_text_results = text_generator.process_responses(text_responses, prompts)
             #genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
-            All_prompts = concatenate_prompt_dicts(prompts_text, prompts_images)
+            #All_prompts = concatenate_prompt_dicts(prompts_text, prompts_images)
 
             # Analyze the image for specific criteria using Image Analysis
             image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
