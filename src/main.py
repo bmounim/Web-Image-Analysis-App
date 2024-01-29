@@ -240,26 +240,17 @@ def main():
             scraper.handle_cookies(url)
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
             scraper.close()
-            detected_texts2=''
 
-            for i, (screenshot_data, screenshot_path) in enumerate(screenshot_data_list):
-                # Save each screenshot in the temporary directory
-                screenshot_file_path = os.path.join(temp_dir, f"screenshot_{index}_{i}.png")
-                with open(screenshot_file_path, "wb") as file:
-                    file.write(screenshot_data)
-                file_paths.append(screenshot_file_path)
-
-
-                # Initialize TextDetector and analyze the image for text
-                text_detector = TextDetector()
-                detected_text2 = text_detector.analyze_image_for_text(screenshot_data)
-                detected_texts =  detected_texts + detected_texts2  
-
+            # Initialize TextDetector and analyze the image for text
+            text_detector = TextDetector()
+            detected_texts = text_detector.analyze_image_for_text(screenshot_data)
             #text_criteria_results = text_detector.process_detected_text(detected_texts)
 
             # Initialize TextGenerator and generate text responses
             text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
             prompts = get_prompts_for_country_text(selected_country)  
+            full_text = ' '.join(detected_texts)  # Concatenates all detected text into one string
+            prompts = [prompt.format(full_text=full_text) for prompt in prompts]
             parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
             text_responses = text_generator.generate_text_responses(prompts, parameters)
             processed_text_results = text_generator.process_responses(text_responses, prompts)
