@@ -80,7 +80,7 @@ def run_selenium(logpath):
     with webdriver.Chrome(options=get_webdriver_options(), service=get_webdriver_service(logpath=logpath)) as driver:
         url = "https://www.unibet.fr/sport/football/europa-league/europa-league-matchs"
         driver.get(url)
-        xpath = '//*[@class="ui-mainview-block eventpath-wrapper"]'
+        xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[1]'
         # Wait for the element to be rendered:
         element = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.XPATH, value=xpath))
         name = element[0].get_property('attributes')[0]['name']
@@ -108,12 +108,9 @@ class WebScraper:
 
         self.driver.get(url)
 
-        try:
-            # Wait for the cookie banner to become clickable and click it
-            xpath = '//*[@id="uc-btn-accept-banner"]'
-            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
-        except Exception as e:
-            print(f"Cookie banner not found or could not be clicked: {str(e)}")
+        # Wait for the cookie banner to become clickable and click it
+        xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[1]'
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
 
     def capture_and_return_fullpage_screenshot(self, url):
         """
