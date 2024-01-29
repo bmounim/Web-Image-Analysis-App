@@ -429,6 +429,7 @@ def main():
             full_text = ' '.join(extracted_texts)  # Concatenates all extracted text into one string
 
             # Now use 'full_text' in your prompts
+            All_prompts = get_prompts_for_all(selected_country)
             All_prompts = [prompt.format(full_text=full_text) for prompt in All_prompts]
 
 
