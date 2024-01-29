@@ -126,14 +126,21 @@ class WebScraper:
         #self.driver.execute_script("return document.readyState")
 
         # Additional functionality can be added here (e.g., handling cookie notices)
-        zoom_level = 150  # Adjust this value as needed (100 is default)
-        self.driver.execute_script(f"document.body.style.transform = 'scale({zoom_level / 100})'")
-        self.driver.execute_script(f"document.body.style.transformOrigin = 'top left'")
+        #zoom_level = 150  # Adjust this value as needed (100 is default)
+        self.driver.execute_script("document.body.style.zoom='100%'")
+        #self.driver.execute_script(f"document.body.style.transformOrigin = 'top left'")
+
+        width = self.driver.execute_script("return document.body.scrollWidth")
+        height = self.driver.execute_script("return document.body.scrollHeight")
+
 
         # You might need to adjust these values based on the zoom level and the content you want to capture
-        width = 800 * zoom_level / 100
-        height = self.driver.execute_script("return document.body.scrollHeight") * zoom_level / 100
+        #width = 800 * zoom_level / 100
+        #height = self.driver.execute_script("return document.body.scrollHeight") * zoom_level / 100
         self.driver.set_window_size(width, height)
+        time.sleep(3)
+
+
 
         png = self.driver.get_screenshot_as_png()
 
