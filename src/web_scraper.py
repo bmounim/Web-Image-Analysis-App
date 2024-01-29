@@ -110,7 +110,7 @@ class WebScraper:
 
         try:
             # Wait for the cookie banner to become clickable and click it
-            xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[1]'
+            xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[2]'
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
         except Exception as e:
             print(f"Cookie banner not found or could not be clicked: {str(e)}")
