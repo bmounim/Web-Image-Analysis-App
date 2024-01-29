@@ -128,7 +128,7 @@ class WebScraper:
         # Additional functionality can be added here (e.g., handling cookie notices)
 
         # Trigger JavaScript to get the full page screenshot
-        result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
+        result = self.driver.execute_script("document.body.style.zoom='100%'")
         self.driver.set_window_size(800, result)  # Width, Height
         png = self.driver.get_screenshot_as_png()
 
