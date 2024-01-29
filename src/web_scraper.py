@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from Screenshot import Screenshot
 
 import time 
 import os
@@ -21,8 +22,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 import os
 import shutil
-from Screenshot import Screenshot
-
 
 import streamlit as st
 from selenium import webdriver
@@ -82,7 +81,7 @@ def run_selenium(logpath):
     with webdriver.Chrome(options=get_webdriver_options(), service=get_webdriver_service(logpath=logpath)) as driver:
         url = "https://www.unibet.fr/sport/football/europa-league/europa-league-matchs"
         driver.get(url)
-        xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[2]'
+        xpath = '//*[@class="ui-mainview-block eventpath-wrapper"]'
         # Wait for the element to be rendered:
         element = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.XPATH, value=xpath))
         name = element[0].get_property('attributes')[0]['name']
@@ -112,11 +111,10 @@ class WebScraper:
 
         try:
             # Wait for the cookie banner to become clickable and click it
-            xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[2]'
+            xpath = '//*[@id="uc-btn-accept-banner"]'
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
         except Exception as e:
             print(f"Cookie banner not found or could not be clicked: {str(e)}")
-
 
     def capture_and_return_fullpage_screenshot(self, url):
         """
@@ -126,32 +124,27 @@ class WebScraper:
         """
         self.driver.get(url)
         time.sleep(10)
+
+        screenshot_ob = Screenshot.Screenshot()
+
+        image_name = 'screenshot.png'
+        screenshot_path = os.path.join(os.getcwd(), image_name)
+        screenshot_ob.full_screenshot(self.driver, save_path='.', image_name=image_name, is_load_at_runtime=True, load_wait_time=3)
+
+
+        print(f"Screenshot saved at {screenshot_path}")
         #self.driver.execute_script("return document.readyState")
 
         # Additional functionality can be added here (e.g., handling cookie notices)
 
         # Trigger JavaScript to get the full page screenshot
         #result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
-        #full_page_height = self.driver.execute_script("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );")
-
         #self.driver.set_window_size(800, result)  # Width, Height
-        #self.driver.set_window_size(1920, full_page_height)  # Adjust width as needed
-
         #png = self.driver.get_screenshot_as_png()
 
         # Save the screenshot to a file
-        #self.driver.get(url)
-
-        screenshot = Screenshot(driver=self.driver)
-        screenshot.capture(full=True)  # Capture full page
-
-        # Get the screenshot as binary data
-        png = screenshot.binary
-
-        screenshot_path = "assets/screenshot.png"  # Local path
-        with open(screenshot_path, "wb") as file:
-            file.write(png)
-
+        with open(screenshot_path, 'rb') as file:
+            png = file.read()
         print(f"Screenshot saved at {screenshot_path}")
 
         return png,screenshot_path
