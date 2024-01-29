@@ -448,9 +448,9 @@ def main():
             convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
             image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results,rename_mappings=rename_mappings,convert_columns=convert_columns)
             #image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
-            #image_analysis_results = DataManager.merge_dataframes( image_analysis_results)
-            #image_analysis_results
-            #image_analysis_results['yes or no'] = image_analysis_results['yes or no'].map({'yes': 1, 'no': 0})
+            #final_results = DataManager.merge_dataframes( image_analysis_results)
+            final_results=image_analysis_results
+            final_results['yes or no'] = final_results['yes or no'].map({'yes': 1, 'no': 0})
             
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
@@ -458,13 +458,13 @@ def main():
     # Extracting just the 'kaufland' part from the domain name
             extracted_name = domain_name.split('.')[1] 
             
-            image_analysis_results.insert(0, 'Company_Name', extracted_name)
+            final_results.insert(0, 'Company_Name', extracted_name)
 
             # Add 'Company_Url' column at the second position
-            image_analysis_results.insert(1, 'Company_Url', url)
+            final_results.insert(1, 'Company_Url', url)
             # This assumes the format is [subdomain].[name].[tld]
 
-            xlsx_data = DataManager.convert_df_to_xlsx(image_analysis_results)
+            xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
             xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}.xlsx")
             with open(xlsx_file_path, "wb") as f:
