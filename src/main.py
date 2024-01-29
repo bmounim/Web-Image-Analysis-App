@@ -450,7 +450,7 @@ def main():
             #image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
             #image_analysis_results = DataManager.merge_dataframes( image_analysis_results)
             #image_analysis_results
-            image_analysis_results['yes or no'] = image_analysis_results['yes or no'].map({'yes': 1, 'no': 0})
+            #image_analysis_results['yes or no'] = image_analysis_results['yes or no'].map({'yes': 1, 'no': 0})
             
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
