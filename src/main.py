@@ -2,6 +2,10 @@
 import pandas as pd
 from urllib.parse import urlparse
 import streamlit as st
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from Screenshot import Screenshot
 from web_scraper import WebScraper
 from image_analysis import analyze_image_for_criteria
 from text_detection import TextDetector
@@ -14,6 +18,14 @@ import google.generativeai as genai
 import os
 import zipfile
 import tempfile
+
+def concat_dicts(dict1, dict2):
+    for key in dict2:
+        if key in dict1:
+            dict1[key].extend(dict2[key])
+        else:
+            dict1[key] = dict2[key]
+    return dict1
 
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
@@ -255,7 +267,8 @@ def main():
 
             # Initialize TextGenerator and generate text responses
             text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
-            prompts = get_prompts_for_country_text(selected_country)  
+            prompts_text = get_prompts_for_country_text(selected_country)  
+            prompts_images = get_prompts_for_country_images(selected_country)
             #full_text = ' '.join(detected_texts)  # Concatenates all detected text into one string
             #prompts = [prompt.format(full_text=full_text) for prompt in prompts]
             
@@ -273,16 +286,18 @@ def main():
             processed_text_results = text_generator.process_responses(text_responses, prompts)
             genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
+            All_prompts = concat_dicts(prompts_text, prompts_images)
 
             # Analyze the image for specific criteria using Image Analysis
-            image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=get_prompts_for_country_images(selected_country))
+            image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
 
             # Data Management and Export
             rename_mappings = {'yes or no': 'yes/no(1/0)'}
             convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
             #processed_text_results=DataManager.preprocess_dataframe(processed_text_results,rename_mappings=rename_mappings,convert_columns=convert_columns)
-            #image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
-            final_results = DataManager.merge_dataframes([processed_text_results, image_analysis_results])
+            image_analysis_results=DataManager.preprocess_dataframe(image_analysis_results)
+            #final_results = DataManager.merge_dataframes( image_analysis_results)
+            final_results=image_analysis_results
             final_results['yes or no'] = final_results['yes or no'].map({'yes': 1, 'no': 0})
             
             parsed_url = urlparse(url)

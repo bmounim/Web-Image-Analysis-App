@@ -2,7 +2,7 @@
 webdriver-manager
 streamlit
 Pillow
-
+selenium-screenshot
 seleniumbase
 xlsxwriter
 pandas

@@ -21,6 +21,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 import os
 import shutil
+from Screenshot import Screenshot
+
 
 import streamlit as st
 from selenium import webdriver
@@ -130,14 +132,22 @@ class WebScraper:
 
         # Trigger JavaScript to get the full page screenshot
         #result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
-        full_page_height = self.driver.execute_script("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );")
+        #full_page_height = self.driver.execute_script("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );")
 
         #self.driver.set_window_size(800, result)  # Width, Height
-        self.driver.set_window_size(1920, full_page_height)  # Adjust width as needed
+        #self.driver.set_window_size(1920, full_page_height)  # Adjust width as needed
 
-        png = self.driver.get_screenshot_as_png()
+        #png = self.driver.get_screenshot_as_png()
 
         # Save the screenshot to a file
+        #self.driver.get(url)
+
+        screenshot = Screenshot(driver=self.driver)
+        screenshot.capture(full=True)  # Capture full page
+
+        # Get the screenshot as binary data
+        png = screenshot.binary
+
         screenshot_path = "assets/screenshot.png"  # Local path
         with open(screenshot_path, "wb") as file:
             file.write(png)
