@@ -240,18 +240,22 @@ def main():
             scraper.handle_cookies(url)
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
             scraper.close()
+            detected_texts2=''
 
-            # Save the screenshot in the temporary directory and add its path to file_paths
-            screenshot_file_path = os.path.join(temp_dir, f"screenshot_{index}.png")
-            with open(screenshot_file_path, "wb") as file:
-                file.write(screenshot_data)
-            file_paths.append(screenshot_file_path)
+            for i, (screenshot_data, screenshot_path) in enumerate(screenshot_data_list):
+                # Save each screenshot in the temporary directory
+                screenshot_file_path = os.path.join(temp_dir, f"screenshot_{index}_{i}.png")
+                with open(screenshot_file_path, "wb") as file:
+                    file.write(screenshot_data)
+                file_paths.append(screenshot_file_path)
 
 
-            # Initialize TextDetector and analyze the image for text
-            text_detector = TextDetector()
-            detected_texts = text_detector.analyze_image_for_text(screenshot_data)
-            text_criteria_results = text_detector.process_detected_text(detected_texts)
+                # Initialize TextDetector and analyze the image for text
+                text_detector = TextDetector()
+                detected_text2 = text_detector.analyze_image_for_text(screenshot_data)
+                detected_texts =  detected_texts + detected_texts2  
+
+            #text_criteria_results = text_detector.process_detected_text(detected_texts)
 
             # Initialize TextGenerator and generate text responses
             text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
