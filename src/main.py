@@ -241,6 +241,13 @@ def main():
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
             scraper.close()
 
+                        # Save the screenshot in the temporary directory and add its path to file_paths
+            screenshot_file_path = os.path.join(temp_dir, f"screenshot_{index}.png")
+            with open(screenshot_file_path, "wb") as file:
+                file.write(screenshot_data)
+            file_paths.append(screenshot_file_path)
+
+
             # Initialize TextDetector and analyze the image for text
             text_detector = TextDetector()
             detected_texts = text_detector.analyze_image_for_text(screenshot_data)
