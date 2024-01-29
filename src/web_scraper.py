@@ -80,7 +80,7 @@ def run_selenium(logpath):
     with webdriver.Chrome(options=get_webdriver_options(), service=get_webdriver_service(logpath=logpath)) as driver:
         url = "https://www.unibet.fr/sport/football/europa-league/europa-league-matchs"
         driver.get(url)
-        xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[2]'
+        xpath = '//*[@class="ui-mainview-block eventpath-wrapper"]'
         # Wait for the element to be rendered:
         element = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.XPATH, value=xpath))
         name = element[0].get_property('attributes')[0]['name']
@@ -110,7 +110,7 @@ class WebScraper:
 
         try:
             # Wait for the cookie banner to become clickable and click it
-            xpath = '/html/body/div[4]/div[2]/div[1]/div[2]/div[2]/button[2]'
+            xpath = '//*[@id="uc-btn-accept-banner"]'
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
         except Exception as e:
             print(f"Cookie banner not found or could not be clicked: {str(e)}")
@@ -126,32 +126,11 @@ class WebScraper:
         #self.driver.execute_script("return document.readyState")
 
         # Additional functionality can be added here (e.g., handling cookie notices)
-        #zoom_level = 150  # Adjust this value as needed (100 is default)
-        self.driver.execute_script("document.body.style.zoom='100%'")
-        #self.driver.execute_script(f"document.body.style.transformOrigin = 'top left'")
-
-        width = self.driver.execute_script("return document.body.scrollWidth")
-        height = self.driver.execute_script("return document.body.scrollHeight")
-
-
-        # You might need to adjust these values based on the zoom level and the content you want to capture
-        #width = 800 * zoom_level / 100
-        #height = self.driver.execute_script("return document.body.scrollHeight") * zoom_level / 100
-        self.driver.set_window_size(width, height)
-        time.sleep(3)
-
-
-
-        png = self.driver.get_screenshot_as_png()
-
-
-
-
 
         # Trigger JavaScript to get the full page screenshot
-        #result = self.driver.execute_script("document.body.style.zoom='100%'")
-        #self.driver.set_window_size(800, result)  # Width, Height
-        #png = self.driver.get_screenshot_as_png()
+        result = self.driver.execute_script("return document.body.parentNode.scrollHeight")
+        self.driver.set_window_size(800, result)  # Width, Height
+        png = self.driver.get_screenshot_as_png()
 
         # Save the screenshot to a file
         screenshot_path = "assets/screenshot.png"  # Local path
