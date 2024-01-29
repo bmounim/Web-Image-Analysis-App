@@ -248,9 +248,19 @@ def main():
 
             # Initialize TextGenerator and generate text responses
             text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
-            prompts = get_prompts_for_country_text(selected_country)  
-            full_text = ' '.join(detected_texts)  # Concatenates all detected text into one string
+            #prompts = get_prompts_for_country_text(selected_country)  
+            #full_text = ' '.join(detected_texts)  # Concatenates all detected text into one string
+            #prompts = [prompt.format(full_text=full_text) for prompt in prompts]
+            
+
+            # Assuming each 'EntityAnnotation' object has a 'description' attribute with the text content
+            extracted_texts = [entity.description for entity in detected_texts if hasattr(entity, 'description')]
+            full_text = ' '.join(extracted_texts)  # Concatenates all extracted text into one string
+
+            # Now use 'full_text' in your prompts
             prompts = [prompt.format(full_text=full_text) for prompt in prompts]
+
+
             parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
             text_responses = text_generator.generate_text_responses(prompts, parameters)
             processed_text_results = text_generator.process_responses(text_responses, prompts)
