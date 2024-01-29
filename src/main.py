@@ -18,14 +18,24 @@ import google.generativeai as genai
 import os
 import zipfile
 import tempfile
+def concatenate_prompt_dicts(dict1, dict2):
+    """
+    Concatenates the lists of values in two dictionaries based on matching keys.
 
-def concat_dicts(dict1, dict2):
-    for key in dict2:
-        if key in dict1:
-            dict1[key].extend(dict2[key])
+    :param dict1: First dictionary with lists as values.
+    :param dict2: Second dictionary with lists as values.
+    :return: Concatenated dictionary.
+    """
+    concatenated_dict = dict1.copy()  # Copy the first dictionary to avoid modifying the original
+
+    for key, value in dict2.items():
+        if key in concatenated_dict:
+            concatenated_dict[key].extend(value)
         else:
-            dict1[key] = dict2[key]
-    return dict1
+            concatenated_dict[key] = value
+
+    return concatenated_dict
+
 
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
@@ -286,7 +296,7 @@ def main():
             #processed_text_results = text_generator.process_responses(text_responses, prompts)
             #genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
-            All_prompts = concat_dicts(prompts_text, prompts_images)
+            All_prompts = concatenate_prompt_dicts(prompts_text, prompts_images)
 
             # Analyze the image for specific criteria using Image Analysis
             image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
