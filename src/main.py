@@ -278,13 +278,13 @@ def main():
             full_text = ' '.join(extracted_texts)  # Concatenates all extracted text into one string
 
             # Now use 'full_text' in your prompts
-            prompts = [prompt.format(full_text=full_text) for prompt in prompts]
+            prompts_text = [prompt.format(full_text=full_text) for prompt in prompts_text]
 
 
-            parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
-            text_responses = text_generator.generate_text_responses(prompts, parameters)
-            processed_text_results = text_generator.process_responses(text_responses, prompts)
-            genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+            #parameters = {"temperature": 0.7, "max_output_tokens": 256, "top_p": 0.8, "top_k": 40}
+            #text_responses = text_generator.generate_text_responses(prompts, parameters)
+            #processed_text_results = text_generator.process_responses(text_responses, prompts)
+            #genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
             All_prompts = concat_dicts(prompts_text, prompts_images)
 
