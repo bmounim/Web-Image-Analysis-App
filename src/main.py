@@ -248,7 +248,7 @@ def main():
 
             # Initialize TextGenerator and generate text responses
             text_generator = TextGenerator(GOOGLE_PROJECT_ID, VERTEX_AI_REGION)
-            #prompts = get_prompts_for_country_text(selected_country)  
+            prompts = get_prompts_for_country_text(selected_country)  
             #full_text = ' '.join(detected_texts)  # Concatenates all detected text into one string
             #prompts = [prompt.format(full_text=full_text) for prompt in prompts]
             
