@@ -471,9 +471,9 @@ def main():
                 # Find the first 'yes' and the first 'no' for this criteria in image_analysis_results
                 first_yes_info = first_no_info = None
                 for df in image_analysis_results:
-                    if first_yes_info is None and 'yes' in df[df['criteria'] == criteria]['yes/no(1/0)'].values:
+                    if first_yes_info is None and 1 in df[df['criteria'] == criteria]['yes/no(1/0)'].values:
                         first_yes_info = df[df['criteria'] == criteria]['optional_infos'].values[0]
-                    if first_no_info is None and 'no' in df[df['criteria'] == criteria]['yes/no(1/0)'].values:
+                    if first_no_info is None and 0 in df[df['criteria'] == criteria]['yes/no(1/0)'].values:
                         first_no_info = df[df['criteria'] == criteria]['optional_infos'].values[0]
                 
                 # If there is at least one 'yes', set 'yes' in final DataFrame and use the first 'yes' info
