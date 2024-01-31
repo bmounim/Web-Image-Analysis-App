@@ -449,7 +449,14 @@ def main():
             image_analysis_results,split_images_paths = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
             
             for path in split_images_paths :
-                file_paths.append(path) 
+                file_paths.append(path)
+
+            rename_mappings = {'yes or no': 'yes/no(1/0)'}
+            convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
+        
+
+            for df in image_analysis_results : 
+               df = DataManager.preprocess_dataframe(df,rename_mappings,convert_columns)
 
             #final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
 
