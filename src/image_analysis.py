@@ -11,6 +11,29 @@ import google.generativeai as genai
 import io
 import streamlit as st
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
+def split_image_vertically(image_path, num_splits):
+    image = Image.open(image_path)
+    split_height = image.height // num_splits
+    split_image_paths = []
+
+    for i in range(num_splits):
+        bbox = (0, i * split_height, image.width, (i + 1) * split_height if (i + 1) < num_splits else image.height)
+        split_image = image.crop(bbox)
+        split_image_path = f'split_image_{i}.png'
+        split_image.save(split_image_path)
+        split_image_paths.append(split_image_path)
+
+    return split_image_paths
+
+def zoom_image(image_path, zoom_factor):
+    image = Image.open(image_path)
+    new_size = (int(image.width * zoom_factor), int(image.height * zoom_factor))
+    zoomed_image = image.resize(new_size, Image.ANTIALIAS)
+    zoomed_image_path = f'zoomed_{image_path.split("/")[-1]}'
+    zoomed_image.save(zoomed_image_path)
+
+    return zoomed_image_path
+
 
 def init_vertex_ai(project_id, region):
     vertexai.init(project=project_id, location=region,api_endpoint='us-central1-aiplatform.googleapis.com')
@@ -63,19 +86,27 @@ def process_response(response_text):
     return {"yes or no": yes_no, "additional_infos": response_text}
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
-    #init_vertex_ai(project_id, region)
-    #image = Image.open(image_file)
-    model = initialize_model()
-    image=image_file
-    prompts = prompts
+
+    split_image_paths=split_image_vertically(image_file, 10)
+
+    for image in split_image_paths : 
+        
+        #init_vertex_ai(project_id, region)
+        #image = Image.open(image_file)
+        model = initialize_model()
+        image= zoom_image(image,3)
+        prompts = prompts
 
 
-    data = []
-    for prompt in prompts:
-        response_text = analyze_image(model, prompt, image)
-        processed_data = process_response(response_text)
-        processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
-        row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
-        data.append(row)
-    data = pd.DataFrame(data)
-    return data
+        data = []
+        all_data=[]
+        for prompt in prompts:
+            response_text = analyze_image(model, prompt, image)
+            processed_data = process_response(response_text)
+            processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
+            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
+            data.append(row)
+        data = pd.DataFrame(data)
+        all_data.append(data)
+
+    return all_data
