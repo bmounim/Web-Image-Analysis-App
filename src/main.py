@@ -392,6 +392,11 @@ def main():
     #app_ui.render_navbar2()
     app_ui.render_header()
     url, selected_country,analyze_button = app_ui.render_input_section2()
+    
+    xpath_input = st.text_input("Enter XPath")
+
+    # Add button to process with the given XPath
+    xpath_button = st.button("Process with XPath")
 
     def process_urls(url,selected_country) : 
 
@@ -400,7 +405,7 @@ def main():
 
         for index, url in enumerate(url): 
             scraper = WebScraper()
-            scraper.handle_cookies(url)
+            scraper.handle_cookies(url,xpath_input)
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
             scraper.close()
 
@@ -485,7 +490,7 @@ def main():
         return zip_file_path
 
 
-    if analyze_button and url:
+    if analyze_button and url and xpath_input:
 
         file_paths = process_urls(url,selected_country)
 
