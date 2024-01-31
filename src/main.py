@@ -468,7 +468,7 @@ def main():
                     yes_no_value = 0
                     additional_infos_value = df.loc[df['yes/no(1/0)'] == 0]['additional_infos'].iloc[0]
                 
-                final_df = final_df.append({'criteria': criteria, 'yes/no(1/0)': yes_no_value, 'additional_infos': additional_infos_value}, ignore_index=True)
+                final_df = final_df._append({'criteria': criteria, 'yes/no(1/0)': yes_no_value, 'additional_infos': additional_infos_value}, ignore_index=True)
 
 
 
