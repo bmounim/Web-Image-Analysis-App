@@ -44,6 +44,8 @@ def get_chromedriver_path():
 @st.cache_resource(show_spinner=False)
 def get_webdriver_options():
     options = Options()
+    options.add_argument('ignore-certificate-errors')
+    options.add_argument('--ignore-ssl-errors=yes')
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -93,6 +95,9 @@ class WebScraper:
         logpath=get_logpath()
         # Define Chrome options for headless mode
         self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument('ignore-certificate-errors')
+        self.chrome_options.add_argument('--ignore-ssl-errors=yes')
+
         self.chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
         self.chrome_options.add_argument('--headless')
         self.chrome_options.add_argument('--no-sandbox')
