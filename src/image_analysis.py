@@ -28,7 +28,7 @@ def split_image_vertically(image_path, num_splits):
 def zoom_image(image_path, zoom_factor):
     image = Image.open(image_path)
     new_size = (int(image.width * zoom_factor), int(image.height * zoom_factor))
-    zoomed_image = image.resize(new_size, Image.ANTIALIAS)
+    zoomed_image = image.resize(new_size, Image.LANCZOS)
     zoomed_image_path = f'zoomed_{image_path.split("/")[-1]}'
     zoomed_image.save(zoomed_image_path)
 
