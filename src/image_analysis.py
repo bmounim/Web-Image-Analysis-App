@@ -111,7 +111,7 @@ def process_response(response_text):
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
     
     split_image_paths=split_image_vertically(image_file, 3)
-    
+    all_data=[]
     for image in split_image_paths : 
         
         #init_vertex_ai(project_id, region)
@@ -122,7 +122,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
 
 
         data = []
-        all_data=[]
+        
         for prompt in prompts:
             response_text = analyze_image(model, prompt, image)
             processed_data = process_response(response_text)
