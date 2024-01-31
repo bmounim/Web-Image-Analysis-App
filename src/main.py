@@ -451,6 +451,8 @@ def main():
             for path in split_images_paths :
                 file_paths.append(path) 
 
+            final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
+
             for df in image_analysis_results : 
                 # Data Management and Export
                 rename_mappings = {'yes or no': 'yes/no(1/0)'}
