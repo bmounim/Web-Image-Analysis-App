@@ -475,7 +475,7 @@ def main():
             
                 
             
-            final_results=image_analysis_results[3]
+            final_results=image_analysis_results[2]
             
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
