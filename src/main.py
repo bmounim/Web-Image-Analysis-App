@@ -396,7 +396,7 @@ def main():
     xpath_input = st.text_input("Enter XPath")
 
     # Add button to process with the given XPath
-    xpath_button = st.button("Process with XPath")
+    xpath_button = st.button("Add XPath")
 
     def process_urls(url,selected_country) : 
 
