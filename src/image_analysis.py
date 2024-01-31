@@ -42,6 +42,29 @@ def initialize_model():
     genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
     return genai.GenerativeModel("gemini-pro-vision")
 
+safety_settings = [
+    {
+        "category": "HARM_CATEGORY_DANGEROUS",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_HARASSMENT",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_HATE_SPEECH",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+        "threshold": "BLOCK_NONE",
+    },
+    {
+        "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+        "threshold": "BLOCK_NONE",
+    },
+]
+
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
         with Image.open(image) as img:
@@ -73,7 +96,7 @@ def analyze_image(model, prompt, image):
                 ),
             ],
         ),      
-        stream=True)
+        safety_settings=safety_settings,stream=True)
 
         print(response)
         #response = model.generate_content([prompt, image])
