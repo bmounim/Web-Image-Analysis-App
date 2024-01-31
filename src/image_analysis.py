@@ -86,9 +86,9 @@ def process_response(response_text):
     return {"yes or no": yes_no, "additional_infos": response_text}
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
-
+    
     split_image_paths=split_image_vertically(image_file, 10)
-
+    
     for image in split_image_paths : 
         
         #init_vertex_ai(project_id, region)
@@ -109,4 +109,4 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         data = pd.DataFrame(data)
         all_data.append(data)
 
-    return all_data
+    return all_data,split_image_paths

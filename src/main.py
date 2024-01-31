@@ -446,7 +446,11 @@ def main():
             #All_prompts = concatenate_prompt_dicts(prompts_text, prompts_images)
 
             # Analyze the image for specific criteria using Image Analysis
-            image_analysis_results = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
+            image_analysis_results,split_images_paths = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
+            
+            for path in split_images_paths :
+                file_paths.append(path) 
+
             for df in image_analysis_results : 
                 # Data Management and Export
                 rename_mappings = {'yes or no': 'yes/no(1/0)'}
