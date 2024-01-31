@@ -129,7 +129,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
             processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
             row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
             data.append(row)
-        data = pd.DataFrame(data)
-        all_data.append(data)
+            data = pd.DataFrame(data)
+            all_data.append(data)
 
     return all_data,split_image_paths
