@@ -409,7 +409,7 @@ def main():
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
             scraper.close()
 
-                        # Save the screenshot in the temporary directory and add its path to file_paths
+            # Save the screenshot in the temporary directory and add its path to file_paths
             screenshot_file_path = os.path.join(temp_dir, f"screenshot_{index}.png")
             with open(screenshot_file_path, "wb") as file:
                 file.write(screenshot_data)
@@ -451,7 +451,7 @@ def main():
             for path in split_images_paths :
                 file_paths.append(path) 
 
-            final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
+            #final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
 
             final_df = pd.DataFrame({'criteria': image_analysis_results[0]['criteria'].unique()})
 
@@ -483,8 +483,7 @@ def main():
                     
                 
             
-            final_results=image_analysis_results[1]
-            
+            final_results=final_df
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
 
