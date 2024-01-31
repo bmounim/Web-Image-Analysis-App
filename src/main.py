@@ -485,11 +485,6 @@ def main():
                     final_df.loc[final_df['criteria'] == criteria, 'optional_infos'] = first_no_info
 
             # Show the final DataFrame
-            
-
-                    
-                
-            
             final_results=final_df
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
