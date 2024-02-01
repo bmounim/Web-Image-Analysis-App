@@ -40,7 +40,7 @@ class TextGenerator:
             results.append({
                 "criteria": criterion,
                 "yes or no": yes_no,
-                "additional_infos": response_text
+                "optional_infos": response_text
             })
 
         return pd.DataFrame(results)

@@ -104,7 +104,7 @@ def analyze_image(model, prompt, image):
     
 def process_response(response_text):
     yes_no = "yes" if "yes" in response_text.lower() else "no" if "no" in response_text.lower() else "unknown"
-    return {"yes or no": yes_no, "additional_infos": response_text}
+    return {"yes or no": yes_no, "optional_infos": response_text}
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
     
@@ -125,7 +125,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
             response_text = analyze_image(model, prompt, image)
             processed_data = process_response(response_text)
             processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
-            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
+            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "optional_infos": processed_data["optional_infos"]}
             data.append(row)
         data = pd.DataFrame(data)
         all_data.append(data)
