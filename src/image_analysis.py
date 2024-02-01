@@ -16,6 +16,9 @@ from vertexai.preview.generative_models import (
     HarmCategory,
     Part,
 )
+from PIL import Image as PIL_Image
+
+
 from vertexai.preview.generative_models import (
     GenerationConfig,
     GenerativeModel,
@@ -27,7 +30,7 @@ from vertexai.preview.generative_models import (
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 def split_image_vertically(image_path, num_splits):
-    image = Image.open(image_path)
+    image = PIL_Image.open(image_path)
     split_height = image.height // num_splits
     split_image_paths = []
 
