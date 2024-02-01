@@ -10,9 +10,9 @@ import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
 import streamlit as st
-import time
 
-#Image.LOAD_TRUNCATED_IMAGES = True
+
+Image.LOAD_TRUNCATED_IMAGES = True
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 def split_image_vertically(image_path, num_splits):
@@ -83,7 +83,7 @@ def analyze_image(model, prompt, image):
             bytes_io = io.BytesIO()
             img.save(bytes_io, format=img_format, quality=85)  # Adjust quality for size
             bytes_data = bytes_io.getvalue()
-            
+        
             # Check size
         if len(bytes_data) > 4194304:  # 4 MB
             raise ValueError("Image size after compression is still too large.")
@@ -117,6 +117,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
     split_image_paths=split_image_vertically(image_file, 3)
     all_data=[]
     for image in split_image_paths : 
+        
         #init_vertex_ai(project_id, region)
         #image = Image.open(image_file)
         model = initialize_model()
@@ -124,19 +125,15 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         prompts = prompts
 
 
+        data = []
         
-    
-    data = []
-    prompts = prompts
+        for prompt in prompts:
+            response_text = analyze_image(model, prompt, image)
+            processed_data = process_response(response_text)
+            processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
+            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
+            data.append(row)
+        data = pd.DataFrame(data)
+        all_data.append(data)
 
-    for prompt in prompts:
-        response_text = analyze_image(model, prompt, image_file)
-        time.sleep(30)
-        processed_data = process_response(response_text)
-        processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
-        row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
-        data.append(row)
-    data = pd.DataFrame(data)
-    #all_data.append(data)
-
-    return data,split_image_paths
+    return all_data,split_image_paths
