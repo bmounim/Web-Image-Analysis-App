@@ -27,6 +27,7 @@ from vertexai.preview.generative_models import (
     Part,
 )
 
+
 #Image.LOAD_TRUNCATED_IMAGES = True
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
@@ -86,6 +87,8 @@ safety_settings = [
 
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
+        from vertexai.preview.generative_models import Image
+
         image = Image.load_from_file(image)
         
 # Ask a question about the image

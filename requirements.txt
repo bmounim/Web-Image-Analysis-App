@@ -2,6 +2,7 @@
 webdriver-manager
 streamlit
 Pillow
+google-cloud-aiplatform>=1.29.0
 selenium-screenshot
 seleniumbase
 xlsxwriter
