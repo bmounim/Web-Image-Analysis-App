@@ -44,7 +44,7 @@ def split_image_vertically(image_path, num_splits):
     return split_image_paths
 
 def zoom_image(image_path, zoom_factor):
-    image = Image.open(image_path)
+    image = PIL_Image.open(image_path)
     new_size = (int(image.width * zoom_factor), int(image.height * zoom_factor))
     zoomed_image = image.resize(new_size, Image.LANCZOS)
     zoomed_image_path = f'zoomed_{image_path.split("/")[-1]}'
@@ -85,24 +85,6 @@ safety_settings = [
 
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
-        with Image.open(image) as img:
-            img_format = img.format  # Preserve the original format
-
-            # Compress or resize the image if needed
-            # Example: Resize if width or height is greater than a certain value
-            if img.width > 1024 or img.height > 1024:
-                img.thumbnail((1024, 1024))
-
-            # Convert to bytes
-            bytes_io = io.BytesIO()
-            img.save(bytes_io, format=img_format, quality=85)  # Adjust quality for size
-            bytes_data = bytes_io.getvalue()
-        
-            # Check size
-        if len(bytes_data) > 4194304:  # 4 MB
-            raise ValueError("Image size after compression is still too large.")
-
-
         image = Image.load_from_file(image)
         contents=[image,prompt]
         response = model.generate_content(contents,   
