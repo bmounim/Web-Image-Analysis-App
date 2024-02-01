@@ -2,6 +2,8 @@
 
 import os
 import streamlit as st
+import streamlit as st
+
 # Google Cloud settings
 #GOOGLE_PROJECT_ID = get_env_variable('GOOGLE_PROJECT_ID', "jovial-circuit-412017")
 #GOOGLE_APPLICATION_CREDENTIALS = get_env_variable('GOOGLE_APPLICATION_CREDENTIALS', "GCP_key.json")
