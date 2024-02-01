@@ -83,7 +83,7 @@ def analyze_image(model, prompt, image):
             bytes_io = io.BytesIO()
             img.save(bytes_io, format=img_format, quality=85)  # Adjust quality for size
             bytes_data = bytes_io.getvalue()
-        
+            
             # Check size
         if len(bytes_data) > 4194304:  # 4 MB
             raise ValueError("Image size after compression is still too large.")
