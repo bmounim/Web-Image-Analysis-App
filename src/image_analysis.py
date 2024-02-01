@@ -122,7 +122,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         init_vertex_ai(project_id, region)
         #image = Image.open(image_file)
         model = initialize_model()
-        #image= zoom_image(image,3)
+        image= zoom_image(image,3)
         prompts = prompts
 
 
