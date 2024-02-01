@@ -88,14 +88,14 @@ def analyze_image(model, prompt, image):
         image = Image.load_from_file(image)
         contents=[image,prompt]
         response = model.generate_content(contents,   
-        safety_settings=safety_settings,stream=True)
+        stream=True)
 
         print(response)
         #response = model.generate_content([prompt, image])
         #response.resolve()
         b=[]
-        for a in response : 
-            a=a.text
+        for response_1 in response : 
+            a = response_1.text
             b.append(a)
         return ''.join(b)
     
@@ -112,7 +112,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         init_vertex_ai(project_id, region)
         #image = Image.open(image_file)
         model = initialize_model()
-        image= zoom_image(image,3)
+        #image= zoom_image(image,3)
         prompts = prompts
 
 
