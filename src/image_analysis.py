@@ -10,7 +10,13 @@ import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
 import streamlit as st
-
+from vertexai.preview.generative_models import (
+    GenerationConfig,
+    GenerativeModel,
+    HarmBlockThreshold,
+    HarmCategory,
+    Part,
+)
 
 Image.LOAD_TRUNCATED_IMAGES = True
 
@@ -43,8 +49,8 @@ def init_vertex_ai(project_id, region):
     vertexai.init(project=project_id, location=region,api_endpoint='us-central1-aiplatform.googleapis.com')
 
 def initialize_model():
-    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-    return genai.GenerativeModel("gemini-pro-vision")
+    #genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+    return GenerativeModel("gemini-pro-vision")
 
 safety_settings = [
     {
