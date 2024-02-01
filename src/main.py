@@ -458,13 +458,13 @@ def main():
             for df in image_analysis_results : 
                df = DataManager.preprocess_dataframe(df,rename_mappings,convert_columns)
 
-            final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
+            final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'optional_infos'])
 
             final_df = pd.DataFrame({'criteria': image_analysis_results[0]['criteria'].unique()})
 
             # Initialize columns for the final DataFrame
             final_df['yes/no(1/0)'] = 'no'  # Default value for 'yes/no(1/0)'
-            final_df['additional_infos'] = None  # Default value for 'optional_infos'
+            final_df['optional_infos'] = None  # Default value for 'optional_infos'
 
             # Iterate over each criteria
             for criteria in final_df['criteria']:
