@@ -3,6 +3,7 @@ from google.cloud import aiplatform
 import vertexai
 from vertexai.preview.generative_models import GenerativeModel
 import os 
+from vertexai.preview.vision_models import ImageQnAModel
 import pandas as pd
 from io import BytesIO
 import google.ai.generativelanguage as glm
@@ -58,7 +59,7 @@ def init_vertex_ai(project_id, region):
 
 def initialize_model():
     #genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-    return GenerativeModel("gemini-pro-vision")
+    return ImageQnAModel.from_pretrained("imagetext@001")
 
 safety_settings = [
     {
@@ -86,18 +87,20 @@ safety_settings = [
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
         image = Image.load_from_file(image)
-        contents=[image,prompt]
-        response = model.generate_content(contents,   
-        stream=True)
+        
+# Ask a question about the image
+        response=model.ask_question(
+            image=image, question=prompt
+        )
+
+        #contents=[image,prompt]
+        #response = model.generate_content(contents,   
+        #stream=True)
 
         print(response)
         #response = model.generate_content([prompt, image])
         #response.resolve()
-        b=[]
-        for response_1 in response : 
-            a = response_1.text
-            b.append(a)
-        return ''.join(b)
+        return response
     
 def process_response(response_text):
     yes_no = "yes" if "yes" in response_text.lower() else "no" if "no" in response_text.lower() else "unknown"
