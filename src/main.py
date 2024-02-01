@@ -474,8 +474,9 @@ def main():
 
             
                 
-            
-            final_results=image_analysis_results[1]
+            final_results = pd.concat(image_analysis_results, axis=0, ignore_index=True)
+
+            #final_results=image_analysis_results[1]
             
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
