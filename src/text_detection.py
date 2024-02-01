@@ -9,7 +9,7 @@ from google.cloud import vision
 import pandas as pd
 import os 
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys3.json"
 
 class TextDetector:
     def __init__(self):
