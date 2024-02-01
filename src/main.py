@@ -458,17 +458,6 @@ def main():
                 rename_mappings = {'yes or no': 'yes/no(1/0)'}
                 convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
                 df=DataManager.preprocess_dataframe(df,rename_mappings=rename_mappings,convert_columns=convert_columns)
-                
-                criteria = df.iloc[0]['criteria']
-                
-                if 1 in df['yes/no(1/0)'].values:
-                    yes_no_value = 1
-                    additional_infos_value = df.loc[df['yes/no(1/0)'] == 1]['additional_infos'].iloc[0]
-                else:
-                    yes_no_value = 0
-                    additional_infos_value = df.loc[df['yes/no(1/0)'] == 0]['additional_infos'].iloc[0]
-                
-                final_df = final_df._append({'criteria': criteria, 'yes/no(1/0)': yes_no_value, 'additional_infos': additional_infos_value}, ignore_index=True)
 
 
 
