@@ -10,6 +10,7 @@ import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
 import streamlit as st
+import time
 
 #Image.LOAD_TRUNCATED_IMAGES = True
 
@@ -128,6 +129,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         
         for prompt in prompts:
             response_text = analyze_image(model, prompt, image)
+            time.sleep(30)
             processed_data = process_response(response_text)
             processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
             row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
