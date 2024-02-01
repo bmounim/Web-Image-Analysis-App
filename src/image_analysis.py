@@ -137,6 +137,6 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
         data.append(row)
     data = pd.DataFrame(data)
-    all_data.append(data)
+    #all_data.append(data)
 
-    return all_data,split_image_paths
+    return data,split_image_paths
