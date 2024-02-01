@@ -23,7 +23,7 @@ from vertexai.preview.generative_models import (
     Part,
 )
 
-Image.LOAD_TRUNCATED_IMAGES = True
+#Image.LOAD_TRUNCATED_IMAGES = True
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 def split_image_vertically(image_path, num_splits):
