@@ -1,11 +1,10 @@
 # image_analysis.py
 from google.cloud import aiplatform
 import vertexai
-from vertexai.preview.generative_models import GenerativeModel, Image
+from vertexai.preview.generative_models import GenerativeModel
 import os 
 import pandas as pd
 from io import BytesIO
-from PIL import Image
 import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
@@ -15,6 +14,12 @@ from vertexai.preview.generative_models import (
     GenerativeModel,
     HarmBlockThreshold,
     HarmCategory,
+    Part,
+)
+from vertexai.preview.generative_models import (
+    GenerationConfig,
+    GenerativeModel,
+    Image,
     Part,
 )
 
