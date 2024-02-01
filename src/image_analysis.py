@@ -1,38 +1,18 @@
 # image_analysis.py
 from google.cloud import aiplatform
 import vertexai
-from vertexai.preview.generative_models import GenerativeModel
+from vertexai.preview.generative_models import GenerativeModel, Image
 import os 
-from vertexai.preview.vision_models import ImageQnAModel
 import pandas as pd
 from io import BytesIO
+from PIL import Image
 import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
 import streamlit as st
-from vertexai.preview.generative_models import (
-    GenerationConfig,
-    GenerativeModel,
-    HarmBlockThreshold,
-    HarmCategory,
-    Part,
-)
-from PIL import Image as PIL_Image
-
-
-from vertexai.preview.generative_models import (
-    GenerationConfig,
-    GenerativeModel,
-    Image,
-    Part,
-)
-
-
-#Image.LOAD_TRUNCATED_IMAGES = True
-
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 def split_image_vertically(image_path, num_splits):
-    image = PIL_Image.open(image_path)
+    image = Image.open(image_path)
     split_height = image.height // num_splits
     split_image_paths = []
 
@@ -46,9 +26,9 @@ def split_image_vertically(image_path, num_splits):
     return split_image_paths
 
 def zoom_image(image_path, zoom_factor):
-    image = PIL_Image.open(image_path)
+    image = Image.open(image_path)
     new_size = (int(image.width * zoom_factor), int(image.height * zoom_factor))
-    zoomed_image = image.resize(new_size, PIL_Image.LANCZOS)
+    zoomed_image = image.resize(new_size, Image.LANCZOS)
     zoomed_image_path = f'zoomed_{image_path.split("/")[-1]}'
     zoomed_image.save(zoomed_image_path)
 
@@ -59,8 +39,8 @@ def init_vertex_ai(project_id, region):
     vertexai.init(project=project_id, location=region,api_endpoint='us-central1-aiplatform.googleapis.com')
 
 def initialize_model():
-    #genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
-    return ImageQnAModel.from_pretrained("imagetext@001")
+    genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+    return genai.GenerativeModel("gemini-pro-vision")
 
 safety_settings = [
     {
@@ -87,27 +67,46 @@ safety_settings = [
 
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
-        from vertexai.preview.generative_models import Image
+        with Image.open(image) as img:
+            img_format = img.format  # Preserve the original format
 
-        image = Image.load_from_file(image)
+            # Compress or resize the image if needed
+            # Example: Resize if width or height is greater than a certain value
+            if img.width > 1024 or img.height > 1024:
+                img.thumbnail((1024, 1024))
+
+            # Convert to bytes
+            bytes_io = io.BytesIO()
+            img.save(bytes_io, format=img_format, quality=85)  # Adjust quality for size
+            bytes_data = bytes_io.getvalue()
         
-# Ask a question about the image
-        response=model.ask_question(
-            image=image, question=prompt
-        )
-
-        #contents=[image,prompt]
-        #response = model.generate_content(contents,   
-        #stream=True)
+            # Check size
+        if len(bytes_data) > 4194304:  # 4 MB
+            raise ValueError("Image size after compression is still too large.")
+       
+        response = model.generate_content(
+        glm.Content(
+            parts = [
+                glm.Part(text=prompt),
+                glm.Part(
+                    inline_data=glm.Blob(
+                        mime_type='image/png',
+                        data=bytes_data
+                    )
+                ),
+            ],
+        ),      
+        safety_settings=safety_settings,stream=True)
 
         print(response)
         #response = model.generate_content([prompt, image])
-        #response.resolve()
-        return response
+        response.resolve()
+        response_text=response.text
+        return response_text
     
 def process_response(response_text):
     yes_no = "yes" if "yes" in response_text.lower() else "no" if "no" in response_text.lower() else "unknown"
-    return {"yes or no": yes_no, "optional_infos": response_text}
+    return {"yes or no": yes_no, "additional_infos": response_text}
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
     
@@ -115,7 +114,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
     all_data=[]
     for image in split_image_paths : 
         
-        init_vertex_ai(project_id, region)
+        #init_vertex_ai(project_id, region)
         #image = Image.open(image_file)
         model = initialize_model()
         image= zoom_image(image,3)
@@ -128,7 +127,7 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
             response_text = analyze_image(model, prompt, image)
             processed_data = process_response(response_text)
             processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
-            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "optional_infos": processed_data["optional_infos"]}
+            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
             data.append(row)
         data = pd.DataFrame(data)
         all_data.append(data)

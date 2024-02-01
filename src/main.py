@@ -409,7 +409,7 @@ def main():
             screenshot_data,screenshot_path = scraper.capture_and_return_fullpage_screenshot(url)
             scraper.close()
 
-            # Save the screenshot in the temporary directory and add its path to file_paths
+                        # Save the screenshot in the temporary directory and add its path to file_paths
             screenshot_file_path = os.path.join(temp_dir, f"screenshot_{index}.png")
             with open(screenshot_file_path, "wb") as file:
                 file.write(screenshot_data)
@@ -449,43 +449,34 @@ def main():
             image_analysis_results,split_images_paths = analyze_image_for_criteria(screenshot_path, GOOGLE_PROJECT_ID, VERTEX_AI_REGION,prompts=All_prompts)
             
             for path in split_images_paths :
-                file_paths.append(path)
+                file_paths.append(path) 
 
-            rename_mappings = {'yes or no': 'yes/no(1/0)'}
-            convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
-        
+            final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
 
             for df in image_analysis_results : 
-               df = DataManager.preprocess_dataframe(df,rename_mappings,convert_columns)
-
-            final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'optional_infos'])
-
-            final_df = pd.DataFrame({'criteria': image_analysis_results[0]['criteria'].unique()})
-
-            # Initialize columns for the final DataFrame
-            final_df['yes/no(1/0)'] = 'no'  # Default value for 'yes/no(1/0)'
-            final_df['optional_infos'] = None  # Default value for 'optional_infos'
-
-            # Iterate over each criteria
-            for criteria in final_df['criteria']:
-                # Find the first 'yes' and the first 'no' for this criteria in image_analysis_results
-                first_yes_info = first_no_info = None
-                for df in image_analysis_results:
-                    if first_yes_info is None and 1 in df[df['criteria'] == criteria]['yes/no(1/0)'].values:
-                        first_yes_info = df[df['criteria'] == criteria]['optional_infos'].values[0]
-                    if first_no_info is None and 0 in df[df['criteria'] == criteria]['yes/no(1/0)'].values:
-                        first_no_info = df[df['criteria'] == criteria]['optional_infos'].values[0]
+                # Data Management and Export
+                rename_mappings = {'yes or no': 'yes/no(1/0)'}
+                convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
+                df=DataManager.preprocess_dataframe(df,rename_mappings=rename_mappings,convert_columns=convert_columns)
                 
-                # If there is at least one 'yes', set 'yes' in final DataFrame and use the first 'yes' info
-                if first_yes_info:
-                    final_df.loc[final_df['criteria'] == criteria, 'yes/no(1/0)'] = 'yes'
-                    final_df.loc[final_df['criteria'] == criteria, 'optional_infos'] = first_yes_info
-                # If there is no 'yes' but a 'no', use the first 'no' info
-                elif first_no_info:
-                    final_df.loc[final_df['criteria'] == criteria, 'optional_infos'] = first_no_info
+                criteria = df.iloc[0]['criteria']
+                
+                if 1 in df['yes/no(1/0)'].values:
+                    yes_no_value = 1
+                    additional_infos_value = df.loc[df['yes/no(1/0)'] == 1]['additional_infos'].iloc[0]
+                else:
+                    yes_no_value = 0
+                    additional_infos_value = df.loc[df['yes/no(1/0)'] == 0]['additional_infos'].iloc[0]
+                
+                final_df = final_df._append({'criteria': criteria, 'yes/no(1/0)': yes_no_value, 'additional_infos': additional_infos_value}, ignore_index=True)
 
-            # Show the final DataFrame
-            final_results=final_df
+
+
+            
+                
+            
+            final_results=image_analysis_results[1]
+            
             parsed_url = urlparse(url)
             domain_name = parsed_url.netloc
 
