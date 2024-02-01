@@ -117,7 +117,6 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
     split_image_paths=split_image_vertically(image_file, 3)
     all_data=[]
     for image in split_image_paths : 
-        
         #init_vertex_ai(project_id, region)
         #image = Image.open(image_file)
         model = initialize_model()
@@ -125,16 +124,19 @@ def analyze_image_for_criteria(image_file, project_id, region,prompts):
         prompts = prompts
 
 
-        data = []
         
-        for prompt in prompts:
-            response_text = analyze_image(model, prompt, image)
-            time.sleep(30)
-            processed_data = process_response(response_text)
-            processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
-            row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
-            data.append(row)
-        data = pd.DataFrame(data)
-        all_data.append(data)
+    
+    data = []
+    prompts = prompts
+
+    for prompt in prompts:
+        response_text = analyze_image(model, prompt, image_file)
+        time.sleep(30)
+        processed_data = process_response(response_text)
+        processed_data["criteria"] = prompt  # Moving this line here to adjust the column order
+        row = {"criteria": prompt, "yes or no": processed_data["yes or no"], "additional_infos": processed_data["additional_infos"]}
+        data.append(row)
+    data = pd.DataFrame(data)
+    all_data.append(data)
 
     return all_data,split_image_paths
