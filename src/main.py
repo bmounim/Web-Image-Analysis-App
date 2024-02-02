@@ -476,7 +476,7 @@ def main():
                 
             #final_results = pd.concat(image_analysis_results, axis=0, ignore_index=True)
 
-
+            split_counter = 0
             #final_results=image_analysis_results[1]
             for final_results in image_analysis_results : 
                 parsed_url = urlparse(url)
@@ -493,10 +493,13 @@ def main():
 
                 xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
-                xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}.xlsx")
+                xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}_split{split_counter}.xlsx")
                 with open(xlsx_file_path, "wb") as f:
                     f.write(xlsx_data)
                 file_paths.append(xlsx_file_path)
+                split_counter += 1
+
+                
             return file_paths
 
 
