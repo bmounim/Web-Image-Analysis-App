@@ -115,9 +115,9 @@ def analyze_image(model, prompt, image):
         img = PIL_Image.open(image) 
         #img_format = img.format  # Preserve the original format
         # Convert to bytes
-        #bytes_io = io.BytesIO()
-        #img.save(bytes_io)  # Adjust quality for size
-        bytes_data = image.getvalue()
+        bytes_io = io.BytesIO()
+        img.save(bytes_io)  # Adjust quality for size
+        bytes_data = bytes_io.getvalue()
     
         response = model.generate_content(
         glm.Content(
