@@ -70,11 +70,6 @@ safety_settings = [
 
 
         {
-        "category": " HARM_CATEGORY_UNSPECIFIED",
-        "threshold": "BLOCK_NONE",
-    },
-
-        {
         "category": " HARM_CATEGORY_TOXICITY",
         "threshold": "BLOCK_NONE",
     },
