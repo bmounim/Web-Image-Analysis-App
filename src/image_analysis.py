@@ -68,13 +68,6 @@ safety_settings = [
         "threshold": "BLOCK_NONE",
     },
 
-
-        {
-        "category": "OTHER",
-        "threshold": "BLOCK_NONE",
-    },
-
-
 ]
 
 def analyze_image(model, prompt, image):
