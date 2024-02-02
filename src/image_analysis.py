@@ -67,38 +67,45 @@ safety_settings = [
 
 def analyze_image(model, prompt, image):
             #bytes_data = image.getvalue()
-        with Image.open(image) as img:
-            # Convert to JPEG for better compression if original is PNG
-            img_format = 'JPEG' if img.format == 'PNG' else img.format
-            quality = 85  # Starting quality
-            bytes_io = io.BytesIO()
-            
-            # Attempt initial save to estimate size
+      from PIL import Image
+import io
+
+def analyze_image(model, prompt, image):
+    with Image.open(image) as img:
+        img_format = 'JPEG' if img.format == 'PNG' else img.format
+        quality = 85  # Starting quality
+        bytes_io = io.BytesIO()
+        
+        img.save(bytes_io, format=img_format, quality=quality, optimize=True)
+        bytes_data = bytes_io.getvalue()
+        
+        while len(bytes_data) > 4194304 and quality > 5:  # Allow quality to go lower
+            quality -= 5
+            bytes_io.seek(0)
+            img.save(bytes_io, format=img_format, quality=quality, optimize=True)
+            bytes_data = bytes_io.getvalue()
+        
+        if len(bytes_data) > 4194304:
+            scale_factor = (4194304 / len(bytes_data)) ** 0.5
+            new_size = (int(img.width * scale_factor), int(img.height * scale_factor))
+            img = img.resize(new_size, Image.LANCZOS)
+            bytes_io.seek(0)
             img.save(bytes_io, format=img_format, quality=quality, optimize=True)
             bytes_data = bytes_io.getvalue()
             
-            # If initial compression is not enough, try reducing quality and resizing
-            while len(bytes_data) > 4194304 and quality > 10:
-                quality -= 5  # Decrease quality
-                bytes_io.seek(0)  # Reset buffer
-                img.save(bytes_io, format=img_format, quality=quality, optimize=True)
-                bytes_data = bytes_io.getvalue()
-            
-            # If size is still too large, attempt to resize the image
-            if len(bytes_data) > 4194304:
-                scale_factor = (4194304 / len(bytes_data)) ** 0.5  # Estimate scale factor
-                new_size = (int(img.width * scale_factor), int(img.height * scale_factor))
+            # Additional resizing step if still too large
+            while len(bytes_data) > 4194304:
+                new_size = (int(img.width * 0.9), int(img.height * 0.9))  # Reduce dimensions by 10%
                 img = img.resize(new_size, Image.LANCZOS)
                 bytes_io.seek(0)
                 img.save(bytes_io, format=img_format, quality=quality, optimize=True)
                 bytes_data = bytes_io.getvalue()
-                if len(bytes_data) > 4194304:
-                    raise ValueError("Image size after maximum compression and resizing is still too large.")
-            
-        # Check size
-        if len(bytes_data) > 4194304:  # 4 MB
-            raise ValueError("Image size after compression is still too large.")
-       
+        
+        if len(bytes_data) > 4194304:
+            raise ValueError("Image size after maximum compression and resizing is still too large.")
+        
+        # Proceed with further processing using bytes_data...
+
         response = model.generate_content(
         glm.Content(
             parts = [
