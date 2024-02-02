@@ -102,7 +102,7 @@ def analyze_image(model, prompt, image):
         ),      
         safety_settings=safety_settings,
         stream=True,
-        generationConfig =generationConfig # Setting a maximum output token limit
+        generation_config =generationConfig # Setting a maximum output token limit
 )
 
         print(response)
