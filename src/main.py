@@ -474,29 +474,30 @@ def main():
 
             
                 
-            final_results = pd.concat(image_analysis_results, axis=0, ignore_index=True)
+            #final_results = pd.concat(image_analysis_results, axis=0, ignore_index=True)
+
 
             #final_results=image_analysis_results[1]
-            
-            parsed_url = urlparse(url)
-            domain_name = parsed_url.netloc
+            for final_results in image_analysis_results : 
+                parsed_url = urlparse(url)
+                domain_name = parsed_url.netloc
 
-    # Extracting just the 'kaufland' part from the domain name
-            extracted_name = domain_name.split('.')[1] 
-            
-            final_results.insert(0, 'Company_Name', extracted_name)
+        # Extracting just the 'kaufland' part from the domain name
+                extracted_name = domain_name.split('.')[1] 
+                
+                final_results.insert(0, 'Company_Name', extracted_name)
 
-            # Add 'Company_Url' column at the second position
-            final_results.insert(1, 'Company_Url', url)
-            # This assumes the format is [subdomain].[name].[tld]
+                # Add 'Company_Url' column at the second position
+                final_results.insert(1, 'Company_Url', url)
+                # This assumes the format is [subdomain].[name].[tld]
 
-            xlsx_data = DataManager.convert_df_to_xlsx(final_results)
+                xlsx_data = DataManager.convert_df_to_xlsx(final_results)
 
-            xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}.xlsx")
-            with open(xlsx_file_path, "wb") as f:
-                f.write(xlsx_data)
-            file_paths.append(xlsx_file_path)
-        return file_paths
+                xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}.xlsx")
+                with open(xlsx_file_path, "wb") as f:
+                    f.write(xlsx_data)
+                file_paths.append(xlsx_file_path)
+            return file_paths
 
 
     def make_zip_file(file_paths):
