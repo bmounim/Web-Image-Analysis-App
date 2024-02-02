@@ -99,7 +99,7 @@ def analyze_image(model, prompt, image):
         safety_settings=safety_settings,
         stream=True,
         max_input_tokens=6000, # Setting a maximum input token limit
-        max_output_tokens=4096 # Setting a maximum output token limit
+        max_output_tokens=1500 # Setting a maximum output token limit
 )
 
         print(response)
