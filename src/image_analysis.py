@@ -43,7 +43,7 @@ def initialize_model():
     return genai.GenerativeModel("gemini-pro-vision")
 
 generationConfig = {
-    "maxOutputTokens": 500
+    "max_output_tokens": 500
 }
 
 safety_settings = [
