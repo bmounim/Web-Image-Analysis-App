@@ -67,6 +67,14 @@ safety_settings = [
         "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
         "threshold": "BLOCK_NONE",
     },
+
+
+        {
+        "category": "OTHER",
+        "threshold": "BLOCK_NONE",
+    },
+
+
 ]
 
 def analyze_image(model, prompt, image):
