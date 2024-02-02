@@ -453,51 +453,64 @@ def main():
 
             final_df = pd.DataFrame(columns=['criteria', 'yes/no(1/0)', 'additional_infos'])
 
+            i = 0
             for df in image_analysis_results : 
                 # Data Management and Export
                 rename_mappings = {'yes or no': 'yes/no(1/0)'}
                 convert_columns = {'yes/no(1/0)': lambda x: 1 if str(x).strip().lower() in ['yes', 'true'] else 0}
                 df=DataManager.preprocess_dataframe(df,rename_mappings=rename_mappings,convert_columns=convert_columns)
                 
-                criteria = df.iloc[0]['criteria']
-                
-                if 1 in df['yes/no(1/0)'].values:
-                    yes_no_value = 1
-                    additional_infos_value = df.loc[df['yes/no(1/0)'] == 1]['additional_infos'].iloc[0]
-                else:
-                    yes_no_value = 0
-                    additional_infos_value = df.loc[df['yes/no(1/0)'] == 0]['additional_infos'].iloc[0]
-                
-                final_df = final_df._append({'criteria': criteria, 'yes/no(1/0)': yes_no_value, 'additional_infos': additional_infos_value}, ignore_index=True)
-
-
-
-            
-                
-            #final_results = pd.concat(image_analysis_results, axis=0, ignore_index=True)
-
-            split_counter = 0
-            #final_results=image_analysis_results[1]
-            for final_results in image_analysis_results : 
                 parsed_url = urlparse(url)
                 domain_name = parsed_url.netloc
 
         # Extracting just the 'kaufland' part from the domain name
                 extracted_name = domain_name.split('.')[1] 
                 
-                final_results.insert(0, 'Company_Name', extracted_name)
+                df.insert(0, 'Company_Name', extracted_name)
 
                 # Add 'Company_Url' column at the second position
-                final_results.insert(1, 'Company_Url', url)
-                # This assumes the format is [subdomain].[name].[tld]
+                df.insert(1, 'Company_Url', url)
+                
 
-                xlsx_data = DataManager.convert_df_to_xlsx(final_results)
+                rename = [
+                    "Contains Trusted Shops Certification",
+                    "Text in German",
+                    "Contains Sale or Discount Keywords",
+                    "Contains Return Policy Keywords",
+                    "Offers Free Returns",
+                    "Has Delivery Information",
+                    "Mentions Free Delivery",
+                    "Contains FAQ or Questions Section",
+                    "Includes a Phone Number",
+                    "Shows Delivery Companies Logos",
+                    "Displays Visa/Mastercard/PayPal Logos",
+                    "Displays Klarna/Sofort/Giropay Logos",
+                    "Features a Chat Support Icon"
+                ]
 
-                xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}_split{split_counter}.xlsx")
-                with open(xlsx_file_path, "wb") as f:
-                    f.write(xlsx_data)
-                file_paths.append(xlsx_file_path)
-                split_counter += 1
+                df.insert(0, 'Image_Split_Number',i )
+
+
+                df.index = rename 
+
+
+
+                i=i+1
+            
+                
+            final_results = pd.concat(image_analysis_results, axis=0, ignore_index=True)
+
+        #final_results=image_analysis_results[1]
+ 
+            # This assumes the format is [subdomain].[name].[tld]
+
+            xlsx_data = DataManager.convert_df_to_xlsx(final_results)
+
+            xlsx_file_path = os.path.join(temp_dir, f"{extracted_name}.xlsx")
+            with open(xlsx_file_path, "wb") as f:
+                f.write(xlsx_data)
+            file_paths.append(xlsx_file_path)
+           
 
                 
             return file_paths
