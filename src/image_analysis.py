@@ -117,7 +117,7 @@ def process_response(response_text):
 
 def analyze_image_for_criteria(image_file, project_id, region,prompts):
     
-    split_image_paths=split_image_vertically(image_file, 3)
+    split_image_paths=split_image_vertically(image_file, 10)
     all_data=[]
     for image in split_image_paths : 
         
