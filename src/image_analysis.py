@@ -1,7 +1,7 @@
 # image_analysis.py
 from google.cloud import aiplatform
 import vertexai
-from vertexai.preview.generative_models import GenerativeModel, Image
+from vertexai.preview.generative_models import GenerativeModel
 import os 
 import pandas as pd
 from io import BytesIO
@@ -88,7 +88,7 @@ def analyze_image(model, prompt, image):
             if len(bytes_data) > 4194304:
                 scale_factor = (4194304 / len(bytes_data)) ** 0.5  # Estimate scale factor
                 new_size = (int(img.width * scale_factor), int(img.height * scale_factor))
-                img = img.resize(new_size, Image.ANTIALIAS)
+                img = img.resize(new_size, Image.LANCZOS)
                 bytes_io.seek(0)
                 img.save(bytes_io, format=img_format, quality=quality, optimize=True)
                 bytes_data = bytes_io.getvalue()
