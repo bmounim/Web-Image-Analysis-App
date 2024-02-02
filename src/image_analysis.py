@@ -42,6 +42,10 @@ def initialize_model():
     genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
     return genai.GenerativeModel("gemini-pro-vision")
 
+generationConfig = {
+    "maxOutputTokens": 500
+}
+
 safety_settings = [
     {
         "category": "HARM_CATEGORY_DANGEROUS",
@@ -98,8 +102,7 @@ def analyze_image(model, prompt, image):
         ),      
         safety_settings=safety_settings,
         stream=True,
-        max_input_tokens=6000, # Setting a maximum input token limit
-        max_output_tokens=1500 # Setting a maximum output token limit
+        generationConfig =generationConfig # Setting a maximum output token limit
 )
 
         print(response)
