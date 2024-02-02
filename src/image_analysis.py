@@ -5,14 +5,14 @@ from vertexai.preview.generative_models import GenerativeModel, Image
 import os 
 import pandas as pd
 from io import BytesIO
-from PIL import Image as PIL_Image
+from PIL import Image
 import google.ai.generativelanguage as glm
 import google.generativeai as genai
 import io
 import streamlit as st
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
 def split_image_vertically(image_path, num_splits):
-    image = PIL_Image.open(image_path)
+    image = Image.open(image_path)
     split_height = image.height // num_splits
     split_image_paths = []
 
@@ -26,9 +26,9 @@ def split_image_vertically(image_path, num_splits):
     return split_image_paths
 
 def zoom_image(image_path, zoom_factor):
-    image = PIL_Image.open(image_path)
+    image = Image.open(image_path)
     new_size = (int(image.width * zoom_factor), int(image.height * zoom_factor))
-    zoomed_image = image.resize(new_size, PIL_Image.LANCZOS)
+    zoomed_image = image.resize(new_size, Image.LANCZOS)
     zoomed_image_path = f'zoomed_{image_path.split("/")[-1]}'
     zoomed_image.save(zoomed_image_path)
 
@@ -112,20 +112,24 @@ safety_settings = [
 
 def analyze_image(model, prompt, image):
         #bytes_data = image.getvalue()
-        img = PIL_Image.open(image) 
-        #img_format = img.format  # Preserve the original format
-        # Convert to bytes
-        bytes_io = io.BytesIO()
-        img.save(bytes_io)  # Adjust quality for size
-        bytes_data = bytes_io.getvalue()
-    
+        with Image.open(image) as img:
+            img_format = img.format  # Preserve the original format
+            # Convert to bytes
+            bytes_io = io.BytesIO()
+            img.save(bytes_io, format=img_format)  # Adjust quality for size
+            bytes_data = bytes_io.getvalue()
+        
+            # Check size
+        if len(bytes_data) > 4194304:  # 4 MB
+            raise ValueError("Image size after compression is still too large.")
+       
         response = model.generate_content(
         glm.Content(
             parts = [
                 glm.Part(text=prompt),
                 glm.Part(
                     inline_data=glm.Blob(
-                        mime_type='img/png',
+                        mime_type='image/png',
                         data=bytes_data
                     )
                 ),
