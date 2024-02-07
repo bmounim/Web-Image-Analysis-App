@@ -11,6 +11,11 @@ import google.generativeai as genai
 import io
 import streamlit as st
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GCP_keys.json"
+from PIL import Image
+
+Image.MAX_IMAGE_PIXELS = None  # Disable the limit (not recommended for untrusted images)
+
+
 def split_image_vertically(image_path, num_splits):
     image = Image.open(image_path)
     split_height = image.height // num_splits
