@@ -97,12 +97,8 @@ class WebScraper:
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument('ignore-certificate-errors')
         self.chrome_options.add_argument('--ignore-ssl-errors=yes')
-<<<<<<< HEAD
         self.chrome_options.add_argument('--headless')
         self.chrome_options.add_argument('--start-maximized')
-
-=======
->>>>>>> a5f9a3bb2025ee201c0cb5cf485160ae49502268
 
         self.chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
         self.chrome_options.add_argument('--headless')
@@ -140,9 +136,7 @@ class WebScraper:
         screenshot_ob = Screenshot.Screenshot()
 
         image_name = 'screenshot.png'
-        screenshot_path = os.path.join(os.getcwd(), image_name)
-
-        #screenshot_ob.full_screenshot(self.driver, save_path='.', image_name=image_name, is_load_at_runtime=True, load_wait_time=3)
+        screenshot_path = os.path.join(os.getcwd(), image_name)        #screenshot_ob.full_screenshot(self.driver, save_path='.', image_name=image_name, is_load_at_runtime=True, load_wait_time=3)
 
         height = self.driver.execute_script('return document.documentElement.scrollHeight')
         width  = self.driver.execute_script('return document.documentElement.scrollWidth')
@@ -150,9 +144,6 @@ class WebScraper:
 
         time.sleep(2)
         self.driver.save_screenshot(screenshot_path)
-
-        screenshot_ob.full_screenshot(self.driver, save_path='.', image_name=image_name, is_load_at_runtime=True, load_wait_time=3)
-
 
         print(f"Screenshot saved at {screenshot_path}")
         #self.driver.execute_script("return document.readyState")
